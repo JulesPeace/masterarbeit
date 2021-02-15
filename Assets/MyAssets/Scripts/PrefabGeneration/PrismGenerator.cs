@@ -17,7 +17,7 @@ public class PrismGenerator : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("PrismGenerator Start");
+        //Debug.Log("PrismGenerator Start");
         //MeshCollider meshCollider = new MeshCollider();
         //prisms = new GameObject[limit];
         MeshCollider meshCollider = GetComponent<MeshCollider>();

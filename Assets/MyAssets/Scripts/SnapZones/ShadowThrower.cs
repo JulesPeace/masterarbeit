@@ -20,7 +20,14 @@ public class ShadowThrower : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //project(TestProjectionRemoveMeLater);
+        try
+        {
+            project(TestProjectionRemoveMeLater);
+        }
+        catch
+        {
+            Debug.Log("TestProjectionRemoveMeLater ist leer!");
+        }
     }
 
     public void project(GameObject interactable)
@@ -47,8 +54,8 @@ public class ShadowThrower : MonoBehaviour
         Mesh mesh = new Mesh();
         try
         {
-            Debug.Log("Anfang des try-Blocks");
-            Debug.Log("Interactable ist " + interactable.name);
+            //Debug.Log("Anfang des try-Blocks");
+            //Debug.Log("Interactable ist " + interactable.name);
             if (interactable.name.Contains("Cube"))
             {
                 QuestDebugLogic.instance.log("Cube snap erkannt");
@@ -58,12 +65,12 @@ public class ShadowThrower : MonoBehaviour
             else
             if (interactable.name.Contains("Wedge"))
             {
-                Debug.Log("Wedge snap erkannt: Bereite Ecken vor:");
+                //Debug.Log("Wedge snap erkannt: Bereite Ecken vor:");
                 QuestDebugLogic.instance.log("Wedge snap erkannt");
                 mesh.vertices = triangleVertices(0);
-                Debug.Log("Ecken vorbereitet, bereite Dreieck vor:");
+                //Debug.Log("Ecken vorbereitet, bereite Dreieck vor:");
                 mesh.triangles = new int[] { 0, 1, 2 };
-                Debug.Log("Dreieck vorbereitet!");
+                //Debug.Log("Dreieck vorbereitet!");
             }
             else
             if (interactable.name.Contains("Prism"))
@@ -86,9 +93,8 @@ public class ShadowThrower : MonoBehaviour
         }
         catch (Exception e)
         {
-            Debug.Log(e.Message);
-            Debug.Log("projection() ohne interactable");
-            QuestDebugLogic.instance.log("projection() ohne interactable");
+            Debug.Log(e.Message + "projection() ohne interactable");
+            QuestDebugLogic.instance.log(e.Message+ ":projection() ohne interactable");
         }
         this.projectionAufsicht.GetComponent<MeshFilter>().mesh = mesh;
     }
@@ -169,7 +175,7 @@ public class ShadowThrower : MonoBehaviour
         catch (Exception e)
         {
             Debug.Log(e.Message);
-            Debug.Log("projectionSeitenansicht() ohne interactable");
+            Debug.Log("projectionVorderansicht() ohne interactable");
             QuestDebugLogic.instance.log("projection() ohne interactable");
         }
         this.projectionVorderansicht.GetComponent<MeshFilter>().mesh = mesh;

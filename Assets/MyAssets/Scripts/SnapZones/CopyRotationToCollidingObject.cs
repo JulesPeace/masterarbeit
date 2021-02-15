@@ -38,7 +38,7 @@ public class CopyRotationToCollidingObject : MonoBehaviour
         //Debug.Log("Tag des transforms ist "+ other.transform.tag);
         //Debug.Log("tag des parents des transforms des ANDEREN Colliders ist " + other.transform.parent.tag);
         QuestDebugLogic.instance.log("other: "+other.transform.parent.tag);
-        try
+        /*try
         {
             Debug.Log("tag des parents des transforms des EIGENEN Colliders ist " + this.transform.parent.tag);
         }
@@ -54,7 +54,7 @@ public class CopyRotationToCollidingObject : MonoBehaviour
         catch
         {
             Debug.Log(this.gameObject.tag+" kann eigenen Collider nicht finden!");
-        }
+        }*/
         //if (!other.CompareTag("Interactable") && !other.gameObject.CompareTag("Interactable"))
         if(other.transform.parent.CompareTag("SnapZone"))
         {

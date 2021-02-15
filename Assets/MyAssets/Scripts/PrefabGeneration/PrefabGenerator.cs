@@ -26,13 +26,13 @@ public class PrefabGenerator : MonoBehaviour
     private void Awake()
     {
         instance = this;
-        Debug.Log("Awake des Prefabgeneratorskripts");
+       // Debug.Log("Awake des Prefabgeneratorskripts");
         this.instances = new GameObject[this.limit];
     }
 
     private void Start()
     {
-        Debug.Log("Start des Prefabgeneratorskripts, limit ist "+this.limit);
+        //Debug.Log("Start des Prefabgeneratorskripts, limit ist "+this.limit);
     /*    generatePrefab();
         instances[0].transform.localScale=new Vector3(0.08f, 0.08f, 0.08f);*/
     }
@@ -68,7 +68,7 @@ public class PrefabGenerator : MonoBehaviour
         {
             this.instances = new GameObject[this.limit];
         }
-        Debug.Log("Durchlauf " + this.instanceCount + " mit prefab " + prefab.name + ".");
+        //Debug.Log("Durchlauf " + this.instanceCount + " mit prefab " + prefab.name + ".");
         /*int j=0;
         while (this.instances[j] != null)
         {
@@ -99,9 +99,9 @@ public class PrefabGenerator : MonoBehaviour
             //Debug.Log(instances[instanceCount].GetComponent<Rigidbody>());
             this.instances[instanceCount].transform.localScale = new Vector3(0.08f, 0.08f, 0.08f);
             this.instances[instanceCount].GetComponent<Rigidbody>().isKinematic = false;
-            Debug.Log("Typname ist " + instances[instanceCount].GetType() + ", LIES DAS!!!!!! Name ist "+instances[instanceCount].name);
+            //Debug.Log("Typname ist " + instances[instanceCount].GetType() + ", LIES DAS!!!!!! Name ist "+instances[instanceCount].name);
             instanceCount++;
-            Debug.Log("Ende des generatePrefab von "+prefab.name+": "+this.instances.ToString());
+            //Debug.Log("Ende des generatePrefab von "+prefab.name+": "+this.instances.ToString());
             //Debug.Log(this.instances[0]);
             //QuestDebugLogic.instance.log(this.instances.ToString());
         }
@@ -138,7 +138,7 @@ public class PrefabGenerator : MonoBehaviour
             // a.useGravity = true;
             //Debug.Log(a.useGravity);
             instances[instanceCount].GetComponent<Rigidbody>().isKinematic = true;
-            Debug.Log(instances[instanceCount].GetComponent<Rigidbody>());
+            Debug.Log("Rigidbody von "+ instances[instanceCount].name+" ist "+instances[instanceCount].GetComponent<Rigidbody>().ToString());
             instances[instanceCount].transform.localScale = new Vector3(0.08f, 0.08f, 0.08f);
             instanceCount++;
         }

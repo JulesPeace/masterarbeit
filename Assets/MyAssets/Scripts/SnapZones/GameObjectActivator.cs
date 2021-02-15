@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Tilia.Interactions.SnapZone;
+using System;
 public class GameObjectActivator : MonoBehaviour
 {
     public SnapZoneConfigurator configurator;
@@ -36,16 +37,20 @@ public class GameObjectActivator : MonoBehaviour
             QuestDebugLogic.instance.log("deactivate auf "+configurator.transform.parent.name);
         }
         catch { QuestDebugLogic.instance.log("Snapreferenz scheint null zu sein!"); }
-        string msg = "toBeActivated null?";
-        toBeActivated.GetComponent<ShadowThrower>().destroyProjection();
+        try
+        {
+            toBeActivated.GetComponent<ShadowThrower>().destroyProjection();
+        }
+        catch(Exception e)
+        {
+            QuestDebugLogic.instance.log("toBeActivated von "+this.name+" ist null!");
+            Debug.Log(toBeActivated.name + " hat keinen ShadowThrower! " + e.Message);
+            QuestDebugLogic.instance.log(toBeActivated.name + " hat keinen ShadowThrower! " + e.Message);
+        }
         if (toBeActivated != null)
         {
-            msg += " nein";
             configurator.Unsnap();
-            msg += ", unsnapped";
             toBeActivated.SetActive(false);
-            msg += ", "+toBeActivated.name+" deaktiviert";
-            QuestDebugLogic.instance.log(msg);
         }
     }
 }
