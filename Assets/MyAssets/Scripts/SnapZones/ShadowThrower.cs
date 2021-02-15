@@ -20,14 +20,16 @@ public class ShadowThrower : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        try
+        /*try
         {
+            Debug.Log("Projektion von " + this.name + " beginnt.");
             project(TestProjectionRemoveMeLater);
+            Debug.Log("Projektion von " + this.name + " beendet.");
         }
-        catch
+        catch(Exception e)
         {
-            Debug.Log("TestProjectionRemoveMeLater ist leer!");
-        }
+            Debug.Log("TestProjectionRemoveMeLater von "+this.name+" ist leer! msg=" + e.Message);
+        }*/
     }
 
     public void project(GameObject interactable)
@@ -48,7 +50,7 @@ public class ShadowThrower : MonoBehaviour
     void projectAufsicht(GameObject interactable)
     {
         this.projectionAufsicht = Instantiate(shadowProjection, aufsicht_plane.transform, false);
-        this.projectionAufsicht.transform.localPosition = this.transform.localPosition*2 + new Vector3(-4f, 0.025f-2*this.transform.localPosition.y, -4f);
+        this.projectionAufsicht.transform.localPosition = new Vector3(this.transform.localPosition.x * 2 - 4f, 0.025f, this.transform.localPosition.z * 2 - 4f);
         this.projectionAufsicht.transform.localScale = new Vector3(2, 2, 2);
         this.projectionAufsicht.GetComponent<MeshRenderer>().material = correctColor;
         Mesh mesh = new Mesh();
@@ -102,7 +104,7 @@ public class ShadowThrower : MonoBehaviour
     void projectSeitenansicht(GameObject interactable)
     {
         this.projectionSeitenansicht = Instantiate(shadowProjection, seitenansicht_plane.transform, false);
-        this.projectionSeitenansicht.transform.localPosition = this.transform.localPosition + new Vector3(-4f, 0.025f, -4f);
+        this.projectionSeitenansicht.transform.localPosition = new Vector3(this.transform.localPosition.y * 2 -4f, 0.025f, -this.transform.localPosition.x * 2 + 4f);
         this.projectionSeitenansicht.transform.localScale = new Vector3(2, 2, 2);
         this.projectionSeitenansicht.GetComponent<MeshRenderer>().material = correctColor;
         Mesh mesh = new Mesh();
@@ -143,7 +145,7 @@ public class ShadowThrower : MonoBehaviour
     void projectVorderansicht(GameObject interactable)
     {
         this.projectionVorderansicht = Instantiate(shadowProjection, vorderansicht_plane.transform, false);
-        this.projectionVorderansicht.transform.localPosition = this.transform.localPosition + new Vector3(-4f, 0.025f, -4f);
+        this.projectionVorderansicht.transform.localPosition = new Vector3(this.transform.localPosition.y * 2 - 4f, 0.025f, this.transform.localPosition.z * 2 - 4f);
         this.projectionVorderansicht.transform.localScale = new Vector3(2, 2, 2);
         this.projectionVorderansicht.GetComponent<MeshRenderer>().material = correctColor;
         Mesh mesh = new Mesh();

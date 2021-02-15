@@ -1901,7 +1901,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 255708451}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5, y: 0.06000027, z: -5}
+  m_LocalPosition: {x: -5, y: 0.06000027, z: 5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1452741212}
@@ -3392,7 +3392,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 550847143}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5, y: 0.06000027, z: 5}
+  m_LocalPosition: {x: 5, y: 0.06000027, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1506288570}
@@ -4891,6 +4891,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   configurator: {fileID: 170931387}
   toBeActivated: {fileID: 1188421575}
+--- !u!114 &797694831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 797694828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28e75966a24d6844ea78f5840fe98c51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vorderansicht_plane: {fileID: 550847143}
+  seitenansicht_plane: {fileID: 255708451}
+  aufsicht_plane: {fileID: 1177161407}
+  shadowProjection: {fileID: 1506288567}
+  correctColor: {fileID: 2100000, guid: 9b306e0d1b535b84e909650a75bcc218, type: 2}
+  incorrectColor: {fileID: 2100000, guid: 669025377795b574da66d9bb2472fcab, type: 2}
+  TestProjectionRemoveMeLater: {fileID: 821741950}
 --- !u!1 &806687821
 GameObject:
   m_ObjectHideFlags: 0
@@ -7059,7 +7078,7 @@ PrefabInstance:
     - target: {fileID: 8407923665924605217, guid: 4b31a8fec775487449f2e9e977953e54,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8407923665924605217, guid: 4b31a8fec775487449f2e9e977953e54,
         type: 3}
@@ -7165,16 +7184,16 @@ PrefabInstance:
         type: 3}
       propertyPath: Deactivated.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 908859520}
+      objectReference: {fileID: 0}
     - target: {fileID: 8407923665924606686, guid: 4b31a8fec775487449f2e9e977953e54,
         type: 3}
       propertyPath: Deactivated.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Unsnap
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8407923665924606686, guid: 4b31a8fec775487449f2e9e977953e54,
         type: 3}
       propertyPath: Deactivated.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8407923665924606686, guid: 4b31a8fec775487449f2e9e977953e54,
         type: 3}
@@ -7310,18 +7329,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 908859517}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &908859520 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8407923665924606686, guid: 4b31a8fec775487449f2e9e977953e54,
-    type: 3}
-  m_PrefabInstance: {fileID: 908859517}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 908859519}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 964fb0f3a2425574fa1d2e4a408e5d17, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &908859521
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7353,7 +7360,7 @@ MonoBehaviour:
   aufsicht_plane: {fileID: 1177161407}
   shadowProjection: {fileID: 1506288567}
   correctColor: {fileID: 2100000, guid: 9b306e0d1b535b84e909650a75bcc218, type: 2}
-  incorrectColor: {fileID: 0}
+  incorrectColor: {fileID: 2100000, guid: 669025377795b574da66d9bb2472fcab, type: 2}
   TestProjectionRemoveMeLater: {fileID: 821741950}
 --- !u!114 &908859523
 MonoBehaviour:
@@ -10260,6 +10267,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   configurator: {fileID: 1098169339}
   toBeActivated: {fileID: 1098169337}
+--- !u!114 &1188421578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1188421575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28e75966a24d6844ea78f5840fe98c51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vorderansicht_plane: {fileID: 0}
+  seitenansicht_plane: {fileID: 0}
+  aufsicht_plane: {fileID: 0}
+  shadowProjection: {fileID: 0}
+  correctColor: {fileID: 0}
+  incorrectColor: {fileID: 0}
+  TestProjectionRemoveMeLater: {fileID: 0}
 --- !u!1 &1207871759 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4523443358366032316, guid: 7a5bb00e92b695e43a173978e6b47e07,
@@ -12453,6 +12479,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   configurator: {fileID: 409022350}
   toBeActivated: {fileID: 1829907660}
+--- !u!114 &1599986788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1599986786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28e75966a24d6844ea78f5840fe98c51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vorderansicht_plane: {fileID: 550847143}
+  seitenansicht_plane: {fileID: 255708451}
+  aufsicht_plane: {fileID: 1177161407}
+  shadowProjection: {fileID: 1506288567}
+  correctColor: {fileID: 2100000, guid: 9b306e0d1b535b84e909650a75bcc218, type: 2}
+  incorrectColor: {fileID: 2100000, guid: 1cf84cd6cb7956c419797d52a83f04ae, type: 2}
+  TestProjectionRemoveMeLater: {fileID: 821741950}
 --- !u!4 &1605714007 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1175574273613369320, guid: 1bb7642ebf8d0a34aa23fc586ea87e6a,
@@ -14086,6 +14131,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   configurator: {fileID: 1735099969}
   toBeActivated: {fileID: 1735099967}
+--- !u!114 &1829907662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1829907660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28e75966a24d6844ea78f5840fe98c51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vorderansicht_plane: {fileID: 0}
+  seitenansicht_plane: {fileID: 0}
+  aufsicht_plane: {fileID: 0}
+  shadowProjection: {fileID: 0}
+  correctColor: {fileID: 0}
+  incorrectColor: {fileID: 0}
+  TestProjectionRemoveMeLater: {fileID: 0}
 --- !u!1001 &1891471531
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15396,7 +15460,7 @@ MonoBehaviour:
   shadowProjection: {fileID: 1506288567}
   correctColor: {fileID: 2100000, guid: 9b306e0d1b535b84e909650a75bcc218, type: 2}
   incorrectColor: {fileID: 0}
-  TestProjectionRemoveMeLater: {fileID: 0}
+  TestProjectionRemoveMeLater: {fileID: 1207871759}
 --- !u!1001 &2079159335
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16595,7 +16659,7 @@ PrefabInstance:
         type: 3}
       propertyPath: TestProjectionRemoveMeLater
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 107580857}
     - target: {fileID: 452061837044791366, guid: 7fc36467f16abbf4c8307c78242db326,
         type: 3}
       propertyPath: m_LocalPosition.x
