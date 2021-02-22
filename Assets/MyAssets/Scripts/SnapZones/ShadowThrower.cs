@@ -20,7 +20,7 @@ public class ShadowThrower : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        /*try
+ /*       try
         {
             Debug.Log("Projektion von " + this.name + " beginnt.");
             project(TestProjectionRemoveMeLater);
@@ -60,19 +60,74 @@ public class ShadowThrower : MonoBehaviour
             //Debug.Log("Interactable ist " + interactable.name);
             if (interactable.name.Contains("Cube"))
             {
-                QuestDebugLogic.instance.log("Cube snap erkannt");
-                mesh.vertices = rectangleVertices();
-                mesh.triangles = new int[] { 0, 3, 2, 0, 2, 1 };
+                //QuestDebugLogic.instance.log("Cube snap erkannt");
+                rectangleMesh(mesh);
+                //mesh.triangles = new int[] { 0, 3, 2, 0, 2, 1 };
             }
             else
             if (interactable.name.Contains("Wedge"))
             {
                 //Debug.Log("Wedge snap erkannt: Bereite Ecken vor:");
-                QuestDebugLogic.instance.log("Wedge snap erkannt");
-                mesh.vertices = triangleVertices(0);
-                //Debug.Log("Ecken vorbereitet, bereite Dreieck vor:");
-                mesh.triangles = new int[] { 0, 1, 2 };
-                //Debug.Log("Dreieck vorbereitet!");
+                //QuestDebugLogic.instance.log("Wedge snap erkannt");
+                //Debug.Log("Wedge snap erkannt");
+                //TODO Komplizierte interactable.transform.rotation analyse
+                string msg = "";
+                int x = (int)interactable.transform.rotation.eulerAngles.x;
+                //msg += "x=" + x;
+                int y = (int)interactable.transform.rotation.eulerAngles.y;
+                //msg += ", y=" + y;
+                int z = (int)interactable.transform.rotation.eulerAngles.z;
+                //msg += ", z=" + z;
+                //msg += interactable.transform.rotation.eulerAngles.ToString();
+                //QuestDebugLogic.instance.log(msg);
+                //mesh.triangles = new int[] { 0, 1, 2 };
+                if (x == 90)
+                {
+                    while (y != 0)
+                    {
+                        y += 90;
+                        z += 90;
+                        y %= 360;
+                        z %= 360;
+                        //Debug.Log("x="+x+", y="+y+",z="+z+".");
+                    }
+                    triangleMesh(mesh, (z + 90) % 360);
+                }
+                    /*if (x == 90)
+                    {
+                        int d = z - y;
+                        if (d == 0)
+                        {
+                            mesh.vertices = triangleVertices(0);
+                        } else
+                        if (d == 270 || d==-90)
+                        {
+                            mesh.vertices = triangleVertices(90);
+                        } else
+                        if (d == 180||d==-180)
+                        {
+                            mesh.vertices = triangleVertices(180);
+                        } else
+                        if (d == -270||d==90)
+                        {
+                            mesh.vertices = triangleVertices(270);
+                        }
+                    }*/
+                else if (x == 270)
+                {
+                    while (y != 0)
+                    {
+                        y -= 90;
+                        z += 90;
+                        z %= 360;
+                    }
+                    triangleMesh(mesh, (-z + 180 + 360) % 360);                                                                                                                                                                         
+                }
+                else
+                {
+                    rectangleMesh(mesh);
+                    //mesh.triangles = new int[] { 0, 3, 2, 0, 2, 1 };
+                }
             }
             else
             if (interactable.name.Contains("Prism"))
@@ -90,6 +145,7 @@ public class ShadowThrower : MonoBehaviour
             }
             else
             {
+                QuestDebugLogic.instance.log("Weder Cube, noch Prism oder Wedge erkannt!");
                 Debug.Log("Weder Cube, noch Prism oder Wedge erkannt!");
             }
         }
@@ -112,21 +168,45 @@ public class ShadowThrower : MonoBehaviour
         {
             if (interactable.name.Contains("Cube"))
             {
-                mesh.vertices = rectangleVertices();
-                mesh.triangles = new int[] { 0, 3, 2, 0, 2, 1 };
+                rectangleMesh(mesh);
+                //mesh.triangles = new int[] { 0, 3, 2, 0, 2, 1 };
             }
             else
             if (interactable.name.Contains("Wedge"))
             {
                 //TODO Komplizierte interactable.transform.rotation analyse
-                mesh.vertices = triangleVertices(0);
-                mesh.triangles = new int[] { 0, 1, 2 };
+                int x = (int)interactable.transform.rotation.eulerAngles.x;
+                int y = (int)interactable.transform.rotation.eulerAngles.y;
+                int z = (int)interactable.transform.rotation.eulerAngles.z;
+                if ((x == 0 || x == 180) && (y == 0 || y == 180))
+                {
+                    if (y == 180)
+                    {
+                        x += 180;
+                        x %= 360;
+                        y += 180;
+                        y %= 360;
+                        z += 180;
+                        z %= 360;
+                    }
+                    if (x != 0)
+                    {
+                        z = (-z + 90) % 360;
+                        x -= 180;
+                    }
+                    triangleMesh(mesh, (z+360)%360);
+                }
+                else
+                {
+                    rectangleMesh(mesh);
+                }
+
+                //mesh.triangles = new int[] { 0, 1, 2 };
             }
             else
             if (interactable.name.Contains("Prism"))
             {
-                mesh.vertices = rectangleVertices();
-                mesh.triangles = new int[] { 0, 3, 2, 0, 2, 1 };
+                rectangleMesh(mesh);
             }
             else
             {
@@ -137,7 +217,7 @@ public class ShadowThrower : MonoBehaviour
         {
             Debug.Log(e.Message);
             Debug.Log("projectionSeitenansicht() ohne interactable");
-            QuestDebugLogic.instance.log("projection() ohne interactable");
+            QuestDebugLogic.instance.log("projection() ohne interactable. " +e.Message);
         }
         this.projectionSeitenansicht.GetComponent<MeshFilter>().mesh = mesh;
     }
@@ -153,20 +233,43 @@ public class ShadowThrower : MonoBehaviour
         {
             if (interactable.name.Contains("Cube"))
             {
-                mesh.vertices = rectangleVertices();
-                mesh.triangles = new int[] { 0, 3, 2, 0, 2, 1 };
+                rectangleMesh(mesh);
+                //mesh.triangles = new int[] { 0, 3, 2, 0, 2, 1 };
             }
             else
             if (interactable.name.Contains("Wedge"))
             {
                 //TODO Komplizierte interactable.transform.rotation analyse
-                mesh.vertices = triangleVertices(0);
-                mesh.triangles = new int[] { 0, 1, 2 };
+                int x = (int)interactable.transform.rotation.eulerAngles.x;
+                int y = (int)interactable.transform.rotation.eulerAngles.y;
+                int z = (int)interactable.transform.rotation.eulerAngles.z;
+                if ((x == 0 || x == 180) && (y == 90 || y == 270))
+                {
+                    if (y == 270)
+                    {
+                        x += 180;
+                        x %= 360;
+                        y += 180;
+                        y %= 360;
+                        z += 180;
+                        z %= 360;
+                    }
+                    if (x != 0)
+                    {
+                        z = (-z + 90) % 360;
+                        x -= 180;
+                    }
+                    triangleMesh(mesh, (z + 360) % 360);
+                }
+                else
+                {
+                    rectangleMesh(mesh);
+                }
             }
             else
             if (interactable.name.Contains("Prism"))
             {
-                mesh.vertices = rectangleVertices();
+                rectangleMesh(mesh);
                 mesh.triangles = new int[] { 0, 3, 2, 0, 2, 1 };
             }
             else
@@ -178,23 +281,47 @@ public class ShadowThrower : MonoBehaviour
         {
             Debug.Log(e.Message);
             Debug.Log("projectionVorderansicht() ohne interactable");
-            QuestDebugLogic.instance.log("projection() ohne interactable");
+            QuestDebugLogic.instance.log("projection() ohne interactable. "+e.Message);
         }
         this.projectionVorderansicht.GetComponent<MeshFilter>().mesh = mesh;
     }
 
-    Vector3[] rectangleVertices()
+    void rectangleMesh(Mesh mesh)
     {
-        return RectangleVertices;
+        mesh.vertices = RectangleVertices;
+        mesh.triangles = new int[] { 0, 3, 2, 0, 2, 1 };
     }
 
-    Vector3[] calculateVerticesForWedge (Vector3 wedgeRotation)
+
+    void triangleMesh(Mesh changedMesh, int rotationInDegrees)
     {
         Vector3[] vertices = new Vector3[3];
-
-        return vertices;
+        switch (rotationInDegrees)
+        {
+            case 0:
+                vertices[0] = RectangleVertices[0];
+                vertices[1] = RectangleVertices[3];
+                vertices[2] = RectangleVertices[1];
+                break;
+            case 90:
+                vertices[0] = RectangleVertices[0];
+                vertices[1] = RectangleVertices[2];
+                vertices[2] = RectangleVertices[1];
+                break;
+            case 180:
+                vertices[0] = RectangleVertices[2];
+                vertices[1] = RectangleVertices[1];
+                vertices[2] = RectangleVertices[3];
+                break;
+            case 270:
+                vertices[0] = RectangleVertices[3];
+                vertices[1] = RectangleVertices[2];
+                vertices[2] = RectangleVertices[0];
+                break;
+        }
+        changedMesh.vertices = vertices;
+        changedMesh.triangles = new int[] { 0, 1, 2 };
     }
-
 
     Vector3[] triangleVertices(int rotationInDegrees)
     {

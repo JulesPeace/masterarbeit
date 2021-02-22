@@ -37,7 +37,7 @@ public class CopyRotationToCollidingObject : MonoBehaviour
         //Debug.Log("this.tag ist "+ this.tag);
         //Debug.Log("Tag des transforms ist "+ other.transform.tag);
         //Debug.Log("tag des parents des transforms des ANDEREN Colliders ist " + other.transform.parent.tag);
-        QuestDebugLogic.instance.log("other: "+other.transform.parent.tag);
+        //QuestDebugLogic.instance.log("other: "+other.transform.parent.tag);
         /*try
         {
             Debug.Log("tag des parents des transforms des EIGENEN Colliders ist " + this.transform.parent.tag);
@@ -59,7 +59,7 @@ public class CopyRotationToCollidingObject : MonoBehaviour
         if(other.transform.parent.CompareTag("SnapZone"))
         {
             //Debug.Log("SnapZoneState is " + other.transform.parent.gameObject.GetComponent<SnapZoneFacade>().ZoneState.ToString());
-            QuestDebugLogic.instance.log("SnapZoneState is " + other.transform.parent.gameObject.GetComponent<SnapZoneFacade>().ZoneState.ToString());
+            //QuestDebugLogic.instance.log("SnapZoneState is " + other.transform.parent.gameObject.GetComponent<SnapZoneFacade>().ZoneState.ToString());
             if (!other.transform.parent.gameObject.GetComponent<SnapZoneFacade>().ZoneState.ToString().Equals("ZoneIsSnapped"))
             {
                 Quaternion rot = new Quaternion();
