@@ -234,6 +234,8 @@ public class DebugUIBuilder : MonoBehaviour
 
   public RectTransform AddLabel(string label, int targetCanvas = 0)
   {
+    //TODO revert change this by deleting the following line
+    labelPrefab.localScale = new Vector3(1, 1, 1);
     RectTransform rt = GameObject.Instantiate(labelPrefab).GetComponent<RectTransform>();
     rt.GetComponent<Text>().text = label;
     AddRect(rt, targetCanvas);

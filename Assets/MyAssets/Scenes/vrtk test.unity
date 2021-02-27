@@ -2039,7 +2039,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 1b2c77624612445c59f6e3ed3e4c9638, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2090,8 +2090,10 @@ MonoBehaviour:
   seitenansicht_plane: {fileID: 255708451}
   aufsicht_plane: {fileID: 1177161407}
   shadowProjection: {fileID: 1506288567}
+  targetProjection: {fileID: 0}
   correctColor: {fileID: 2100000, guid: 9b306e0d1b535b84e909650a75bcc218, type: 2}
   incorrectColor: {fileID: 0}
+  targetColor: {fileID: 0}
   TestProjectionRemoveMeLater: {fileID: 0}
 --- !u!114 &276331016
 MonoBehaviour:
@@ -2173,6 +2175,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: SnapZone
+      objectReference: {fileID: 0}
+    - target: {fileID: 8407923665924605217, guid: 4b31a8fec775487449f2e9e977953e54,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8407923665924606686, guid: 4b31a8fec775487449f2e9e977953e54,
         type: 3}
@@ -2989,8 +2996,10 @@ MonoBehaviour:
   seitenansicht_plane: {fileID: 255708451}
   aufsicht_plane: {fileID: 1177161407}
   shadowProjection: {fileID: 1506288567}
+  targetProjection: {fileID: 0}
   correctColor: {fileID: 2100000, guid: 9b306e0d1b535b84e909650a75bcc218, type: 2}
   incorrectColor: {fileID: 0}
+  targetColor: {fileID: 0}
   TestProjectionRemoveMeLater: {fileID: 0}
 --- !u!1001 &479082473
 PrefabInstance:
@@ -3619,7 +3628,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 1b2c77624612445c59f6e3ed3e4c9638, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4207,6 +4216,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: SnapZone
       objectReference: {fileID: 0}
+    - target: {fileID: 8407923665924605217, guid: 4b31a8fec775487449f2e9e977953e54,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8407923665924606686, guid: 4b31a8fec775487449f2e9e977953e54,
         type: 3}
       propertyPath: Exited.m_PersistentCalls.m_Calls.Array.size
@@ -4548,8 +4562,10 @@ MonoBehaviour:
   seitenansicht_plane: {fileID: 255708451}
   aufsicht_plane: {fileID: 1177161407}
   shadowProjection: {fileID: 1506288567}
+  targetProjection: {fileID: 0}
   correctColor: {fileID: 2100000, guid: 9b306e0d1b535b84e909650a75bcc218, type: 2}
   incorrectColor: {fileID: 0}
+  targetColor: {fileID: 0}
   TestProjectionRemoveMeLater: {fileID: 0}
 --- !u!114 &680025275 stripped
 MonoBehaviour:
@@ -5058,8 +5074,10 @@ MonoBehaviour:
   seitenansicht_plane: {fileID: 255708451}
   aufsicht_plane: {fileID: 1177161407}
   shadowProjection: {fileID: 1506288567}
+  targetProjection: {fileID: 0}
   correctColor: {fileID: 2100000, guid: 9b306e0d1b535b84e909650a75bcc218, type: 2}
   incorrectColor: {fileID: 0}
+  targetColor: {fileID: 0}
   TestProjectionRemoveMeLater: {fileID: 0}
 --- !u!1001 &735989816
 PrefabInstance:
@@ -5283,8 +5301,10 @@ MonoBehaviour:
   seitenansicht_plane: {fileID: 255708451}
   aufsicht_plane: {fileID: 1177161407}
   shadowProjection: {fileID: 1506288567}
+  targetProjection: {fileID: 0}
   correctColor: {fileID: 2100000, guid: 9b306e0d1b535b84e909650a75bcc218, type: 2}
   incorrectColor: {fileID: 2100000, guid: 669025377795b574da66d9bb2472fcab, type: 2}
+  targetColor: {fileID: 0}
   TestProjectionRemoveMeLater: {fileID: 1207871759}
 --- !u!1 &806687821
 GameObject:
@@ -6368,6 +6388,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: SnapZone
       objectReference: {fileID: 0}
+    - target: {fileID: 8407923665924605217, guid: 4b31a8fec775487449f2e9e977953e54,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8407923665924606686, guid: 4b31a8fec775487449f2e9e977953e54,
         type: 3}
       propertyPath: Exited.m_PersistentCalls.m_Calls.Array.size
@@ -6709,8 +6734,10 @@ MonoBehaviour:
   seitenansicht_plane: {fileID: 255708451}
   aufsicht_plane: {fileID: 1177161407}
   shadowProjection: {fileID: 1506288567}
+  targetProjection: {fileID: 0}
   correctColor: {fileID: 2100000, guid: 9b306e0d1b535b84e909650a75bcc218, type: 2}
   incorrectColor: {fileID: 0}
+  targetColor: {fileID: 0}
   TestProjectionRemoveMeLater: {fileID: 0}
 --- !u!1001 &848473066
 PrefabInstance:
@@ -7523,7 +7550,7 @@ PrefabInstance:
     - target: {fileID: 8407923665924605217, guid: 4b31a8fec775487449f2e9e977953e54,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8407923665924605217, guid: 4b31a8fec775487449f2e9e977953e54,
         type: 3}
@@ -7804,8 +7831,10 @@ MonoBehaviour:
   seitenansicht_plane: {fileID: 255708451}
   aufsicht_plane: {fileID: 1177161407}
   shadowProjection: {fileID: 1506288567}
+  targetProjection: {fileID: 0}
   correctColor: {fileID: 2100000, guid: 9b306e0d1b535b84e909650a75bcc218, type: 2}
   incorrectColor: {fileID: 2100000, guid: 669025377795b574da66d9bb2472fcab, type: 2}
+  targetColor: {fileID: 0}
   TestProjectionRemoveMeLater: {fileID: 1207871759}
 --- !u!114 &908859523
 MonoBehaviour:
@@ -7884,7 +7913,7 @@ PrefabInstance:
     - target: {fileID: 8407923665924605217, guid: 4b31a8fec775487449f2e9e977953e54,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8407923665924605217, guid: 4b31a8fec775487449f2e9e977953e54,
         type: 3}
@@ -8853,8 +8882,10 @@ MonoBehaviour:
   seitenansicht_plane: {fileID: 255708451}
   aufsicht_plane: {fileID: 1177161407}
   shadowProjection: {fileID: 1506288567}
+  targetProjection: {fileID: 0}
   correctColor: {fileID: 2100000, guid: 9b306e0d1b535b84e909650a75bcc218, type: 2}
   incorrectColor: {fileID: 0}
+  targetColor: {fileID: 0}
   TestProjectionRemoveMeLater: {fileID: 0}
 --- !u!1 &1074059869 stripped
 GameObject:
@@ -9868,8 +9899,10 @@ MonoBehaviour:
   seitenansicht_plane: {fileID: 255708451}
   aufsicht_plane: {fileID: 1177161407}
   shadowProjection: {fileID: 1506288567}
+  targetProjection: {fileID: 0}
   correctColor: {fileID: 2100000, guid: 9b306e0d1b535b84e909650a75bcc218, type: 2}
   incorrectColor: {fileID: 0}
+  targetColor: {fileID: 0}
   TestProjectionRemoveMeLater: {fileID: 0}
 --- !u!1001 &1120961745
 PrefabInstance:
@@ -10771,8 +10804,10 @@ MonoBehaviour:
   seitenansicht_plane: {fileID: 0}
   aufsicht_plane: {fileID: 0}
   shadowProjection: {fileID: 0}
+  targetProjection: {fileID: 0}
   correctColor: {fileID: 0}
   incorrectColor: {fileID: 0}
+  targetColor: {fileID: 0}
   TestProjectionRemoveMeLater: {fileID: 0}
 --- !u!1 &1177161407
 GameObject:
@@ -10839,7 +10874,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 1b2c77624612445c59f6e3ed3e4c9638, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -10916,8 +10951,10 @@ MonoBehaviour:
   seitenansicht_plane: {fileID: 255708451}
   aufsicht_plane: {fileID: 1177161407}
   shadowProjection: {fileID: 1506288567}
+  targetProjection: {fileID: 0}
   correctColor: {fileID: 2100000, guid: 9b306e0d1b535b84e909650a75bcc218, type: 2}
   incorrectColor: {fileID: 0}
+  targetColor: {fileID: 0}
   TestProjectionRemoveMeLater: {fileID: 0}
 --- !u!1 &1207871759 stripped
 GameObject:
@@ -11180,6 +11217,12 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &1236505912 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 452061837044791361, guid: 7fc36467f16abbf4c8307c78242db326,
+    type: 3}
+  m_PrefabInstance: {fileID: 452061835469700997}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1245860840
 GameObject:
   m_ObjectHideFlags: 0
@@ -11387,9 +11430,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1341250470}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59c0b489be1f0c544aa50ec08b94c66e, type: 3}
+  m_Script: {fileID: 11500000, guid: 5cff633b16ebb22438365e9f8e68b361, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  snapZone: {fileID: 1236505912}
 --- !u!1001 &1343580196
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11400,6 +11444,10 @@ PrefabInstance:
     - target: {fileID: 1620922654972176, guid: ddb963bcde7d8a04a88b3ee4709f46c7, type: 3}
       propertyPath: m_Name
       value: CanvasWithDebug (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1620922654972176, guid: ddb963bcde7d8a04a88b3ee4709f46c7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 223237602148641016, guid: ddb963bcde7d8a04a88b3ee4709f46c7,
         type: 3}
@@ -11479,7 +11527,7 @@ PrefabInstance:
     - target: {fileID: 224586678184848430, guid: ddb963bcde7d8a04a88b3ee4709f46c7,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 600
+      value: 1200
       objectReference: {fileID: 0}
     - target: {fileID: 224586678184848430, guid: ddb963bcde7d8a04a88b3ee4709f46c7,
         type: 3}
@@ -11510,6 +11558,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 224850501658498312, guid: ddb963bcde7d8a04a88b3ee4709f46c7,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 575
+      objectReference: {fileID: 0}
+    - target: {fileID: 224850501658498312, guid: ddb963bcde7d8a04a88b3ee4709f46c7,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 128
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ddb963bcde7d8a04a88b3ee4709f46c7, type: 3}
@@ -12192,6 +12250,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd0e0a8b9ea8d1b4f91fe9bf7d9b957f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  length: 4
+  width: 4
+  height: 4
+  snapZonesGame: {fileID: 1341250470}
+  debugRemoveMeLater: {fileID: 1207871759}
 --- !u!4 &1448026032
 Transform:
   m_ObjectHideFlags: 0
@@ -12397,7 +12460,7 @@ PrefabInstance:
     - target: {fileID: 8407923665924605217, guid: 4b31a8fec775487449f2e9e977953e54,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8407923665924605217, guid: 4b31a8fec775487449f2e9e977953e54,
         type: 3}
@@ -12887,6 +12950,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: SnapZone
       objectReference: {fileID: 0}
+    - target: {fileID: 8407923665924605217, guid: 4b31a8fec775487449f2e9e977953e54,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8407923665924606686, guid: 4b31a8fec775487449f2e9e977953e54,
         type: 3}
       propertyPath: Exited.m_PersistentCalls.m_Calls.Array.size
@@ -13228,8 +13296,10 @@ MonoBehaviour:
   seitenansicht_plane: {fileID: 255708451}
   aufsicht_plane: {fileID: 1177161407}
   shadowProjection: {fileID: 1506288567}
+  targetProjection: {fileID: 0}
   correctColor: {fileID: 2100000, guid: 9b306e0d1b535b84e909650a75bcc218, type: 2}
   incorrectColor: {fileID: 2100000, guid: 1cf84cd6cb7956c419797d52a83f04ae, type: 2}
+  targetColor: {fileID: 0}
   TestProjectionRemoveMeLater: {fileID: 1207871759}
 --- !u!4 &1605714007 stripped
 Transform:
@@ -13348,8 +13418,10 @@ MonoBehaviour:
   seitenansicht_plane: {fileID: 255708451}
   aufsicht_plane: {fileID: 1177161407}
   shadowProjection: {fileID: 1506288567}
+  targetProjection: {fileID: 0}
   correctColor: {fileID: 2100000, guid: 9b306e0d1b535b84e909650a75bcc218, type: 2}
   incorrectColor: {fileID: 0}
+  targetColor: {fileID: 0}
   TestProjectionRemoveMeLater: {fileID: 0}
 --- !u!20 &1657574592 stripped
 Camera:
@@ -14054,6 +14126,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: SnapZone
       objectReference: {fileID: 0}
+    - target: {fileID: 8407923665924605217, guid: 4b31a8fec775487449f2e9e977953e54,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8407923665924606686, guid: 4b31a8fec775487449f2e9e977953e54,
         type: 3}
       propertyPath: Exited.m_PersistentCalls.m_Calls.Array.size
@@ -14395,8 +14472,10 @@ MonoBehaviour:
   seitenansicht_plane: {fileID: 255708451}
   aufsicht_plane: {fileID: 1177161407}
   shadowProjection: {fileID: 1506288567}
+  targetProjection: {fileID: 0}
   correctColor: {fileID: 2100000, guid: 9b306e0d1b535b84e909650a75bcc218, type: 2}
   incorrectColor: {fileID: 0}
+  targetColor: {fileID: 0}
   TestProjectionRemoveMeLater: {fileID: 0}
 --- !u!1 &1788196342 stripped
 GameObject:
@@ -14446,8 +14525,10 @@ MonoBehaviour:
   seitenansicht_plane: {fileID: 255708451}
   aufsicht_plane: {fileID: 1177161407}
   shadowProjection: {fileID: 1506288567}
+  targetProjection: {fileID: 0}
   correctColor: {fileID: 2100000, guid: 9b306e0d1b535b84e909650a75bcc218, type: 2}
   incorrectColor: {fileID: 0}
+  targetColor: {fileID: 0}
   TestProjectionRemoveMeLater: {fileID: 0}
 --- !u!1 &1794995373 stripped
 GameObject:
@@ -15018,8 +15099,10 @@ MonoBehaviour:
   seitenansicht_plane: {fileID: 255708451}
   aufsicht_plane: {fileID: 1177161407}
   shadowProjection: {fileID: 1506288567}
+  targetProjection: {fileID: 0}
   correctColor: {fileID: 2100000, guid: 9b306e0d1b535b84e909650a75bcc218, type: 2}
   incorrectColor: {fileID: 0}
+  targetColor: {fileID: 0}
   TestProjectionRemoveMeLater: {fileID: 0}
 --- !u!1001 &1891471531
 PrefabInstance:
@@ -15481,8 +15564,10 @@ MonoBehaviour:
   seitenansicht_plane: {fileID: 255708451}
   aufsicht_plane: {fileID: 1177161407}
   shadowProjection: {fileID: 1506288567}
+  targetProjection: {fileID: 0}
   correctColor: {fileID: 2100000, guid: 9b306e0d1b535b84e909650a75bcc218, type: 2}
   incorrectColor: {fileID: 0}
+  targetColor: {fileID: 0}
   TestProjectionRemoveMeLater: {fileID: 0}
 --- !u!1 &1928861951
 GameObject:
@@ -15691,6 +15776,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: SnapZone
+      objectReference: {fileID: 0}
+    - target: {fileID: 8407923665924605217, guid: 4b31a8fec775487449f2e9e977953e54,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8407923665924606686, guid: 4b31a8fec775487449f2e9e977953e54,
         type: 3}
@@ -16033,8 +16123,10 @@ MonoBehaviour:
   seitenansicht_plane: {fileID: 255708451}
   aufsicht_plane: {fileID: 1177161407}
   shadowProjection: {fileID: 1506288567}
+  targetProjection: {fileID: 0}
   correctColor: {fileID: 2100000, guid: 9b306e0d1b535b84e909650a75bcc218, type: 2}
   incorrectColor: {fileID: 0}
+  targetColor: {fileID: 0}
   TestProjectionRemoveMeLater: {fileID: 0}
 --- !u!1 &1951749530 stripped
 GameObject:
@@ -16467,8 +16559,10 @@ MonoBehaviour:
   seitenansicht_plane: {fileID: 255708451}
   aufsicht_plane: {fileID: 1177161407}
   shadowProjection: {fileID: 1506288567}
+  targetProjection: {fileID: 0}
   correctColor: {fileID: 2100000, guid: 9b306e0d1b535b84e909650a75bcc218, type: 2}
   incorrectColor: {fileID: 0}
+  targetColor: {fileID: 0}
   TestProjectionRemoveMeLater: {fileID: 1207871759}
 --- !u!1001 &2079159335
 PrefabInstance:
@@ -16554,12 +16648,12 @@ PrefabInstance:
     - target: {fileID: 224586678184848430, guid: ddb963bcde7d8a04a88b3ee4709f46c7,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 1200
+      value: 2400
       objectReference: {fileID: 0}
     - target: {fileID: 224586678184848430, guid: ddb963bcde7d8a04a88b3ee4709f46c7,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 600
+      value: 1200
       objectReference: {fileID: 0}
     - target: {fileID: 224586678184848430, guid: ddb963bcde7d8a04a88b3ee4709f46c7,
         type: 3}
@@ -16590,6 +16684,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 224586678184848430, guid: ddb963bcde7d8a04a88b3ee4709f46c7,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.0063
+      objectReference: {fileID: 0}
+    - target: {fileID: 224586678184848430, guid: ddb963bcde7d8a04a88b3ee4709f46c7,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.0063
+      objectReference: {fileID: 0}
+    - target: {fileID: 224850501658498312, guid: ddb963bcde7d8a04a88b3ee4709f46c7,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 224850501658498312, guid: ddb963bcde7d8a04a88b3ee4709f46c7,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 575
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ddb963bcde7d8a04a88b3ee4709f46c7, type: 3}
@@ -17644,6 +17758,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Interactions.SnapZone 0.0.0
       objectReference: {fileID: 0}
+    - target: {fileID: 452061837044791361, guid: 7fc36467f16abbf4c8307c78242db326,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 452061837044791362, guid: 7fc36467f16abbf4c8307c78242db326,
         type: 3}
       propertyPath: vorderansicht_plane
@@ -17669,6 +17788,11 @@ PrefabInstance:
       propertyPath: TestProjectionRemoveMeLater
       value: 
       objectReference: {fileID: 1207871759}
+    - target: {fileID: 452061837044791362, guid: 7fc36467f16abbf4c8307c78242db326,
+        type: 3}
+      propertyPath: targetColor
+      value: 
+      objectReference: {fileID: 2100000, guid: 46535306311e6df4a8dbde125498dedc, type: 2}
     - target: {fileID: 452061837044791366, guid: 7fc36467f16abbf4c8307c78242db326,
         type: 3}
       propertyPath: m_LocalPosition.x

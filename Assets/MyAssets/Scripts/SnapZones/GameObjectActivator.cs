@@ -24,14 +24,18 @@ public class GameObjectActivator : MonoBehaviour
 
     public void activate()
     {
-        if (toBeActivated != null)
+        GameController.instance.activateDeactivateNeighbours(this.gameObject,true);
+        /*if (toBeActivated != null)
         {
             toBeActivated.SetActive(true);
-        }
+        }*/
     }
 
     public void deactivate()
     {
+
+        GameController.instance.activateDeactivateNeighbours(this.gameObject, false);
+        /*
         try
         {
             QuestDebugLogic.instance.log("deactivate auf "+configurator.transform.parent.name);
@@ -51,6 +55,6 @@ public class GameObjectActivator : MonoBehaviour
         {
             configurator.Unsnap();
             toBeActivated.SetActive(false);
-        }
+        }*/
     }
 }

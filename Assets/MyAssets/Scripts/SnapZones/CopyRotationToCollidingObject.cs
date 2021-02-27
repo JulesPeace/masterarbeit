@@ -30,7 +30,7 @@ public class CopyRotationToCollidingObject : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         Debug.Log("Collision detected");
         Debug.Log("Objektname des kollidierten Objekts ist " + other.name + " und transformname ist " + other.transform.name + " und parentname ist " + other.transform.parent.name + ".");
@@ -73,6 +73,7 @@ public class CopyRotationToCollidingObject : MonoBehaviour
                 angles.z = RoundMe(angles.z);
                 rot = Quaternion.Euler(angles);
                 //Transform trans = new T;
+                //TODO parent.gameObject.transform zirkel?
                 other.gameObject.transform.parent.gameObject.transform.rotation = rot;
                 //Debug.Log("Rotation des mit dem Objekt kollidierten Objekts ist: " + other.gameObject.transform.parent.gameObject.transform.rotation.eulerAngles);
                 /*       Debug.Log("Collision detected");
