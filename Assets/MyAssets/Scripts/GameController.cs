@@ -20,15 +20,16 @@ public class GameController : MonoBehaviour
     ///<summary>1st and 2nd digit are coordinates, 3rd digit is shape (rectangle, triangle, circle, 2-triangle-rectangle), 4th digit is rotation (0, 90, 180, 270) </summary>
     private byte[,,,] targetAufsicht = new byte[4, 4, 3, 4];
     ///<summary>1st and 2nd digit are coordinates, 3rd digit is shape (rectangle, triangle, circle, 2-triangle-rectangle), 4th digit is rotation (0, 90, 180, 270) </summary>
-    private byte[,,,] currentProgressAufsicht = new byte[4, 4, 3, 4];
+    private byte[,,,] currentProgressAufsicht = new byte[4, 4, 4, 4];
     ///<summary>1st and 2nd digit are coordinates, 3rd digit is shape (rectangle, triangle, circle, 2-triangle-rectangle), 4th digit is rotation (0, 90, 180, 270) </summary>
     private byte[,,,] targetSeitenansicht = new byte[4, 4, 3, 4];
     ///<summary>1st and 2nd digit are coordinates, 3rd digit is shape (rectangle, triangle, circle, 2-triangle-rectangle), 4th digit is rotation (0, 90, 180, 270) </summary>
-    private byte[,,,] currentProgressSeitenansicht = new byte[4, 4, 3, 4];
+    //TODO make this private
+    public byte[,,,] currentProgressSeitenansicht = new byte[4, 4, 4, 4];
     ///<summary>1st and 2nd digit are coordinates, 3rd digit is shape (rectangle, triangle, circle, 2-triangle-rectangle), 4th digit is rotation (0, 90, 180, 270) </summary>
     private byte[,,,] targetVorderansicht = new byte[4, 4, 3, 4];
     ///<summary>1st and 2nd digit are coordinates, 3rd digit is shape (rectangle, triangle, circle, 2-triangle-rectangle), 4th digit is rotation (0, 90, 180, 270) </summary>
-    private byte[,,,] currentProgressVorderansicht = new byte[4, 4, 3, 4];
+    private byte[,,,] currentProgressVorderansicht = new byte[4, 4, 4, 4];
 
     private void Awake()
     {
@@ -38,7 +39,7 @@ public class GameController : MonoBehaviour
     void Start()
     {
         szenario1();
-        playArea[0,2,1].GetComponent<ShadowThrower>().project(debugRemoveMeLater);
+        //playArea[0,2,1].GetComponent<ShadowThrower>().project(debugRemoveMeLater);
         Debug.Log("targetSeitenansicht ist "+arrayToString(targetSeitenansicht));
         Debug.Log("currentProgressSeitenansicht ist " + arrayToString(currentProgressSeitenansicht));
     }
@@ -107,7 +108,7 @@ public class GameController : MonoBehaviour
             int compareIndex = (rotation/90 + 2) % 4;
             if (currentProgressAufsicht[x, y, 1, compareIndex] != 0)
             {
-                currentProgressAufsicht[x, y, 0, 0] -= 1;
+                currentProgressAufsicht[x, y, 4, 0] -= 1;
             }
         }
         if (shape.ToLower().Equals("circle"))
@@ -119,24 +120,34 @@ public class GameController : MonoBehaviour
 
     public void removeProgressSeitenansicht(int x, int y, string shape, int rotation)
     {
+        //string msg="";
         if (shape.ToLower().Equals("rectangle"))
         {
+            //msg+=("before "+x+", "+y+", "+shape+", "+rotation+":\n"+ currentProgressSeitenansicht[x, y, shapeStringToIndex(shape), 0]);
+            //QuestDebugLogic.instance.log(msg);
             currentProgressSeitenansicht[x, y, 0, 0] -= 1;
         }
         if (shape.ToLower().Equals("triangle"))
         {
+           // msg += ("before " + x + ", " + y + ", " + shape + ", " + rotation + ":\n" + currentProgressSeitenansicht[x, y, 1, rotation / 90]);
+            //QuestDebugLogic.instance.log(msg);
             currentProgressSeitenansicht[x, y, 1, rotation/90] -= 1;
             //2 triangles can be 1 rectangle
             int compareIndex = (rotation/90 + 2) % 4;
             if (currentProgressSeitenansicht[x, y, 1, compareIndex] != 0)
             {
-                currentProgressSeitenansicht[x, y, 0, 0] -= 1;
+                currentProgressSeitenansicht[x, y, 4, 0] -= 1;
             }
         }
         if (shape.ToLower().Equals("circle"))
         {
+            //msg += ("before " + x + ", " + y + ", " + shape + ", " + rotation + ":\n" + currentProgressSeitenansicht[x, y, 2, 0]);
+            //QuestDebugLogic.instance.log(msg);
             currentProgressSeitenansicht[x, y, 2, 0] -= 1;
         }
+        //QuestDebugLogic.instance.log("Input: " + x + "," + y + "," + shape + ", " + rotation + "0; currentProgressSeitenansicht ist" + GameController.instance.arrayToString(GameController.instance.currentProgressSeitenansicht));
+        //msg += ("\nafter " + x + ", " + y + ", " + shape + ", " + rotation + ":\n" + currentProgressSeitenansicht[x, y, shapeStringToIndex(shape), 0]);
+        //QuestDebugLogic.instance.log(msg);
     }
 
 
@@ -153,7 +164,7 @@ public class GameController : MonoBehaviour
             int compareIndex = (rotation / 90 + 2) % 4;
             if (currentProgressVorderansicht[x, y, 1, compareIndex] != 0)
             {
-                currentProgressVorderansicht[x, y, 0, 0] -= 1;
+                currentProgressVorderansicht[x, y, 4, 0] -= 1;
             }
         }
         if (shape.ToLower().Equals("circle"))
@@ -162,7 +173,7 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public void insertProgessAufsicht(int x, int y, string shape, int rotation)
+    public void insertProgressAufsicht(int x, int y, string shape, int rotation)
     {
         if (shape.ToLower().Equals("rectangle"))
         {
@@ -184,7 +195,7 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public void insertProgessSeitenansicht(int x, int y, string shape, int rotation)
+    public void insertProgressSeitenansicht(int x, int y, string shape, int rotation)
     {
         Debug.Log(x + "," + y + "," + shape + "," + rotation);
         if (shape.ToLower().Equals("rectangle"))
@@ -208,7 +219,7 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public void insertProgessVorderansicht(int x, int y, string shape, int rotation)
+    public void insertProgressVorderansicht(int x, int y, string shape, int rotation)
     {
         if (shape.ToLower().Equals("rectangle"))
         {
@@ -356,7 +367,6 @@ public class GameController : MonoBehaviour
     public void activateDeactivateNeighbours(GameObject snapZone, bool activate)
     {
         int[] index = getIndexOfSnapZoneInPlayArea(snapZone);
-        QuestDebugLogic.instance.log("currentProgressSeitenansicht ist"+arrayToString(currentProgressSeitenansicht));
         //TODO remove debug
         /*string msg = "Neighbour counts sind: (";
         try
@@ -418,7 +428,8 @@ public class GameController : MonoBehaviour
             {
                 if (index[1] != 0 && (neighboursSnapped(new int[] { index[0]-1,index[1],index[2] })<2))
                 {
-                    deactivateSnapZone(playArea[index[0] - 1, index[1], index[2]]);                   
+                    deactivateSnapZone(playArea[index[0] - 1, index[1], index[2]]);
+                    QuestDebugLogic.instance.log("x-1 nachbar deaktiveirt");
                 }
             }
         }
@@ -489,6 +500,10 @@ public class GameController : MonoBehaviour
                     deactivateSnapZone(playArea[index[0], index[1], index[2] + 1]);
                 }
             }
+        }
+        if (checkVictory())
+        {
+            QuestDebugLogic.instance.log("geschafft! Alpha 0.7 komplettiert!");
         }
     }
 
@@ -654,80 +669,153 @@ public class GameController : MonoBehaviour
         return false;
     }
 
-
-    bool checkVictory()
+    /// <summary>
+    /// true if the projections from currentProgress show the target, false if not.
+    /// </summary>
+    /// <param name="target"></param>
+    /// <param name="currentProgress"></param>
+    /// <returns></returns>
+    public bool checkProjections(byte[,,,]target, byte[,,,]currentProgress)
     {
-        //TODO a lot. compare all projections, check if rectangle meets 2 triangles, rectangle or 2 triangles > 1 circle
         for (int i = 0; i < 4; i++)
         {
             for (int j = 0; j < 4; j++)
             {
-                for (int k = 0; k < 3; k++)
+                if ((target[i, j, 0, 0] == 0)
+                    && (target[i, j, 1, 0] == 0)
+                    && (target[i, j, 1, 1] == 0)
+                    && (target[i, j, 1, 2] == 0)
+                    && (target[i, j, 1, 3] == 0)
+                    && (target[i, j, 2, 0] == 0)
+                    )
                 {
-                    //rectangle
-                    if (k == 0)
+                    if ((currentProgress[i, j, 0, 0] != 0)
+                        || (currentProgress[i, j, 1, 0] != 0)
+                        || (currentProgress[i, j, 1, 1] != 0)
+                        || (currentProgress[i, j, 1, 2] != 0)
+                        || (currentProgress[i, j, 1, 3] != 0)
+                        || (currentProgress[i, j, 2, 0] != 0)
+                        )
                     {
-                        if (
-                            (targetAufsicht[i, j, 0, 0] > 0)
-                            && (currentProgressAufsicht[i, j, 0, 0] == 0)
-                            && ((currentProgressAufsicht[i, j, 1, 1] == 0) || currentProgressAufsicht[i, j, 1, 1] == 0)
-                            && ((currentProgressAufsicht[i, j, 1, 2] == 0) || currentProgressAufsicht[i, j, 1, 4] == 0)
-                            )
-                        {
-                            return false;
-                        }
+                        return false;
                     }
-                    //triangles 
-                    if (k == 1)
+                }
+                else
+                    for (int k = 0; k < 3; k++)
                     {
-                        for (int l = 0; l < 4; l++)
+                        //rectangle
+                        if (k == 0)
                         {
                             if (
-                                (targetAufsicht[i, j, k, l] > 0)
-                                && ((currentProgressAufsicht[i, j, k, l] == 0)
-                                    || (currentProgressAufsicht[i, j, 0, 0] > 0)
-                                    || (currentProgressAufsicht[i, j, 2, 0] > 0)
-                                    || (currentProgressAufsicht[i, j, k, (l + 1) % 4] > 0)
-                                    || (currentProgressAufsicht[i, j, k, (l + 2) % 4] > 0)
-                                    || (currentProgressAufsicht[i, j, k, (l + 3) % 4] > 0)
-                                    )
-
+                                (target[i, j, 0, 0] > 0)
+                                && (currentProgress[i, j, 0, 0] == 0)
+                                && ((currentProgress[i, j, 1, 1] == 0) || (currentProgress[i, j, 1, 1] == 0))
+                                && ((currentProgress[i, j, 1, 2] == 0) || (currentProgress[i, j, 1, 4] == 0))
                                 )
                             {
                                 return false;
                             }
                         }
-                    }
-                    //circles
-                    if (k == 2)
-                    {
-                        if (
-                            (targetAufsicht[i, j, 2, 0] > 0)
-                            && (currentProgressAufsicht[i, j, 2, 0] == 0)
-                                || (currentProgressAufsicht[i, j, 1, 0] > 0)
-                                || (currentProgressAufsicht[i, j, 1, 1] > 0)
-                                || (currentProgressAufsicht[i, j, 1, 2] > 0)
-                                || (currentProgressAufsicht[i, j, 1, 3] > 0)
-                                || (currentProgressAufsicht[i, j, 0, 0] > 0)
-                            )
+                        else
+                        //triangles 
+                        if (k == 1)
                         {
-                            return false;
+                            for (int l = 0; l < 4; l++)
+                            {
+                                if (
+                                    (target[i, j, k, l] > 0)
+                                    && ((currentProgress[i, j, k, l] == 0)
+                                        || (currentProgress[i, j, 0, 0] > 0)
+                                        || (currentProgress[i, j, 2, 0] > 0)
+                                        || (currentProgress[i, j, k, (l + 1) % 4] > 0)
+                                        || (currentProgress[i, j, k, (l + 2) % 4] > 0)
+                                        || (currentProgress[i, j, k, (l + 3) % 4] > 0)
+                                        )
+                                    )
+                                {
+                                    return false;
+                                }
+                            }
                         }
-                    }
-                    else
-                    {
-                        for (int l = 0; l < 4; l++)
+                        else
+                        //circles
+                        if (k == 2)
                         {
-                            if (targetAufsicht[i, j, k, l] != currentProgressAufsicht[i, j, k, l])
+                            if (
+                                (target[i, j, 2, 0] > 0)
+                                && ((currentProgress[i, j, 2, 0] == 0)
+                                    || (currentProgress[i, j, 1, 0] > 0)
+                                    || (currentProgress[i, j, 1, 1] > 0)
+                                    || (currentProgress[i, j, 1, 2] > 0)
+                                    || (currentProgress[i, j, 1, 3] > 0)
+                                    || (currentProgress[i, j, 0, 0] > 0))
+                                    )
                             {
                                 return false;
                             }
                         }
+
+                        {
+                            for (int l = 0; l < 4; l++)
+                            {
+                                if (target[i, j, k, l] != currentProgress[i, j, k, l])
+                                {
+                                    return false;
+                                }
+                            }
+                        }
                     }
-                }
             }
         }
         return true;
+    }
+
+    public bool checkVictory()
+    {
+        //TODO a lot. compare all projections, check if rectangle meets 2 triangles, rectangle or 2 triangles > 1 circle
+        string msg="";
+        bool aufsicht = false;
+        bool seitenansicht = false;
+        bool vorderansicht = false;
+        try
+        {
+            aufsicht = checkProjections(targetAufsicht, currentProgressAufsicht);
+        }
+        catch(Exception e)
+        {
+            msg += "bug in aufsicht" + e.Message;
+        }
+        try
+        {
+            seitenansicht = checkProjections(targetSeitenansicht, currentProgressSeitenansicht);
+        }
+        catch (Exception e)
+        {
+            msg += "bug in seitenansicht" + e.Message;
+        }
+        try
+        {
+            vorderansicht = checkProjections(targetVorderansicht, currentProgressVorderansicht);
+        }
+        catch (Exception e)
+        {
+            msg += "bug in vorderansicht" + e.Message;
+        }
+        QuestDebugLogic.instance.log(QuestDebugLogic.logText.text+msg+"\naufsicht = "+aufsicht+"\nseitenansicht = "+seitenansicht+"\nvorderansicht = "+vorderansicht);
+        if (seitenansicht && vorderansicht && aufsicht)
+        {
+            return true;
+        }
+        return false;
+
+        /*if(checkProjections(targetAufsicht,currentProgressAufsicht)
+            &&checkProjections(targetSeitenansicht,currentProgressSeitenansicht)
+            &&checkProjections(targetVorderansicht,currentProgressVorderansicht)
+            )
+        {
+            return true;
+        }
+        return false;*/
     }
 
     // Update is called once per frame

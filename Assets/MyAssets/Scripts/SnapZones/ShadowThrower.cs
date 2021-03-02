@@ -59,6 +59,10 @@ public class ShadowThrower : MonoBehaviour
         projectAufsicht(interactable);
         projectSeitenansicht(interactable);
         projectVorderansicht(interactable);
+        /*if (GameController.instance.checkVictory())
+        {
+            QuestDebugLogic.instance.log("geschafft! Alpha 0.7 komplettiert!");
+        }*/
     }
 
     public void createTargetProjection(string parentPlane, int x, int y, int shape, int rotationInByte)
@@ -125,7 +129,7 @@ public class ShadowThrower : MonoBehaviour
             {
                 //QuestDebugLogic.instance.log("Cube snap erkannt");
                 rectangleMesh(mesh);
-                GameController.instance.insertProgessAufsicht((int)this.transform.localPosition.z,(int)this.transform.localPosition.x,"rectangle",0);
+                GameController.instance.insertProgressAufsicht((int)this.transform.localPosition.z,(int)this.transform.localPosition.x,"rectangle",0);
                 if(!GameController.instance.checkCorrectnessAufsicht((int)this.transform.localPosition.z, (int)this.transform.localPosition.x, "rectangle", 0))
                 {
                     this.projectionAufsicht.GetComponent<MeshRenderer>().material = incorrectColor;
@@ -165,7 +169,7 @@ public class ShadowThrower : MonoBehaviour
                     }
                     int rot = (z + 90) % 360;
                     triangleMesh(mesh, rot);
-                    GameController.instance.insertProgessAufsicht((int)this.transform.localPosition.z, (int)this.transform.localPosition.x, "triangle", rot);
+                    GameController.instance.insertProgressAufsicht((int)this.transform.localPosition.z, (int)this.transform.localPosition.x, "triangle", rot);
                     if (!GameController.instance.checkCorrectnessAufsicht((int)this.transform.localPosition.z, (int)this.transform.localPosition.x, "triangle", rot))
                     {
                         this.projectionAufsicht.GetComponent<MeshRenderer>().material = incorrectColor;
@@ -204,7 +208,7 @@ public class ShadowThrower : MonoBehaviour
                     }
                     int rot = (-z + 540) % 360;
                     triangleMesh(mesh, rot);
-                    GameController.instance.insertProgessAufsicht((int)this.transform.localPosition.z, (int)this.transform.localPosition.x, "triangle", rot);
+                    GameController.instance.insertProgressAufsicht((int)this.transform.localPosition.z, (int)this.transform.localPosition.x, "triangle", rot);
                     if (!GameController.instance.checkCorrectnessAufsicht((int)this.transform.localPosition.z, (int)this.transform.localPosition.x, "triangle", rot))
                     {
                         this.projectionAufsicht.GetComponent<MeshRenderer>().material = incorrectColor;
@@ -216,7 +220,7 @@ public class ShadowThrower : MonoBehaviour
                 else
                 {
                     rectangleMesh(mesh);
-                    GameController.instance.insertProgessAufsicht((int)this.transform.localPosition.z, (int)this.transform.localPosition.x, "rectangle", 0);
+                    GameController.instance.insertProgressAufsicht((int)this.transform.localPosition.z, (int)this.transform.localPosition.x, "rectangle", 0);
                     if (!GameController.instance.checkCorrectnessAufsicht((int)this.transform.localPosition.z, (int)this.transform.localPosition.x, "rectangle", 0))
                     {
                         this.projectionAufsicht.GetComponent<MeshRenderer>().material = incorrectColor;
@@ -241,7 +245,7 @@ public class ShadowThrower : MonoBehaviour
                     triangles[i * 3 + 2] = 19 - i;
                 }
                 mesh.triangles = triangles;
-                GameController.instance.insertProgessAufsicht((int)this.transform.localPosition.z, (int)this.transform.localPosition.x, "circle", 0);
+                GameController.instance.insertProgressAufsicht((int)this.transform.localPosition.z, (int)this.transform.localPosition.x, "circle", 0);
                 if (!GameController.instance.checkCorrectnessAufsicht((int)this.transform.localPosition.z, (int)this.transform.localPosition.x, "circle", 0))
                 {
                     this.projectionAufsicht.GetComponent<MeshRenderer>().material = incorrectColor;
@@ -277,7 +281,7 @@ public class ShadowThrower : MonoBehaviour
             {
                 rectangleMesh(mesh);
                 //mesh.triangles = new int[] { 0, 3, 2, 0, 2, 1 };
-                GameController.instance.insertProgessSeitenansicht(-(int)this.transform.localPosition.x+3, (int)this.transform.localPosition.y, "rectangle", 0);
+                GameController.instance.insertProgressSeitenansicht(-(int)this.transform.localPosition.x+3, (int)this.transform.localPosition.y, "rectangle", 0);
                 if (!GameController.instance.checkCorrectnessSeitenansicht(-(int)this.transform.localPosition.x+3, (int)this.transform.localPosition.y, "rectangle", 0))
                 {
                     this.projectionSeitenansicht.GetComponent<MeshRenderer>().material = incorrectColor;
@@ -311,7 +315,7 @@ public class ShadowThrower : MonoBehaviour
                     }
                     int rot= (z + 360) % 360;
                     triangleMesh(mesh, rot);
-                    GameController.instance.insertProgessSeitenansicht(-(int)this.transform.localPosition.x+3, (int)this.transform.localPosition.y, "triangle", rot);
+                    GameController.instance.insertProgressSeitenansicht(-(int)this.transform.localPosition.x+3, (int)this.transform.localPosition.y, "triangle", rot);
                     if (!GameController.instance.checkCorrectnessSeitenansicht(-(int)this.transform.localPosition.x+3, (int)this.transform.localPosition.y, "triangle", rot))
                     {
                         this.projectionSeitenansicht.GetComponent<MeshRenderer>().material = incorrectColor;
@@ -324,7 +328,7 @@ public class ShadowThrower : MonoBehaviour
                 {
                     rectangleMesh(mesh);
                     Debug.Log("InsertProgress für Seitenansicht bei: "+(-(int)this.transform.localPosition.x+3) +","+ (int)this.transform.localPosition.y+"rectangle,0");
-                    GameController.instance.insertProgessSeitenansicht(-(int)this.transform.localPosition.x+3, (int)this.transform.localPosition.y, "rectangle", 0);
+                    GameController.instance.insertProgressSeitenansicht(-(int)this.transform.localPosition.x+3, (int)this.transform.localPosition.y, "rectangle", 0);
                     if (!GameController.instance.checkCorrectnessSeitenansicht(-(int)this.transform.localPosition.x+3, (int)this.transform.localPosition.y, "rectangle", 0))
                     {
                         this.projectionSeitenansicht.GetComponent<MeshRenderer>().material = incorrectColor;
@@ -340,7 +344,7 @@ public class ShadowThrower : MonoBehaviour
             if (interactable.name.Contains("Prism"))
             {
                 rectangleMesh(mesh);
-                GameController.instance.insertProgessSeitenansicht(-(int)this.transform.localPosition.x+3, (int)this.transform.localPosition.y, "rectangle", 0);
+                GameController.instance.insertProgressSeitenansicht(-(int)this.transform.localPosition.x+3, (int)this.transform.localPosition.y, "rectangle", 0);
                 if (!GameController.instance.checkCorrectnessSeitenansicht(-(int)this.transform.localPosition.x+3, (int)this.transform.localPosition.y, "rectangle", 0))
                 {
                     this.projectionSeitenansicht.GetComponent<MeshRenderer>().material = incorrectColor;
@@ -375,7 +379,7 @@ public class ShadowThrower : MonoBehaviour
             if (interactable.name.Contains("Cube"))
             {
                 rectangleMesh(mesh);
-                GameController.instance.insertProgessVorderansicht((int)this.transform.localPosition.z, (int)this.transform.localPosition.y, "rectangle", 0);
+                GameController.instance.insertProgressVorderansicht((int)this.transform.localPosition.z, (int)this.transform.localPosition.y, "rectangle", 0);
                 if (!GameController.instance.checkCorrectnessVorderansicht((int)this.transform.localPosition.z, (int)this.transform.localPosition.y, "rectangle", 0))
                 {
                     this.projectionVorderansicht.GetComponent<MeshRenderer>().material = incorrectColor;
@@ -412,7 +416,7 @@ public class ShadowThrower : MonoBehaviour
                     }
                     int rot = (z + 360) % 360;
                     triangleMesh(mesh, rot);
-                    GameController.instance.insertProgessVorderansicht((int)this.transform.localPosition.z, (int)this.transform.localPosition.y, "triangle", rot);
+                    GameController.instance.insertProgressVorderansicht((int)this.transform.localPosition.z, (int)this.transform.localPosition.y, "triangle", rot);
                     if (!GameController.instance.checkCorrectnessVorderansicht((int)this.transform.localPosition.z, (int)this.transform.localPosition.y, "triangle", rot))
                     {
                         this.projectionVorderansicht.GetComponent<MeshRenderer>().material = incorrectColor;
@@ -424,7 +428,7 @@ public class ShadowThrower : MonoBehaviour
                 else
                 {
                     rectangleMesh(mesh);
-                    GameController.instance.insertProgessVorderansicht((int)this.transform.localPosition.z, (int)this.transform.localPosition.y, "rectangle", 0);
+                    GameController.instance.insertProgressVorderansicht((int)this.transform.localPosition.z, (int)this.transform.localPosition.y, "rectangle", 0);
                     if (!GameController.instance.checkCorrectnessVorderansicht((int)this.transform.localPosition.z, (int)this.transform.localPosition.y, "rectangle", 0))
                     {
                         this.projectionVorderansicht.GetComponent<MeshRenderer>().material = incorrectColor;
@@ -439,7 +443,7 @@ public class ShadowThrower : MonoBehaviour
             if (interactable.name.Contains("Prism"))
             {
                 rectangleMesh(mesh);
-                GameController.instance.insertProgessVorderansicht((int)this.transform.localPosition.z, (int)this.transform.localPosition.y, "rectangle", 0);
+                GameController.instance.insertProgressVorderansicht((int)this.transform.localPosition.z, (int)this.transform.localPosition.y, "rectangle", 0);
                 if (!GameController.instance.checkCorrectnessVorderansicht((int)this.transform.localPosition.z, (int)this.transform.localPosition.y, "rectangle", 0))
                 {
                     this.projectionVorderansicht.GetComponent<MeshRenderer>().material = incorrectColor;
@@ -565,7 +569,7 @@ public class ShadowThrower : MonoBehaviour
                         break;
                 }
                 Destroy(this.projectionAufsicht);
-                GameController.instance.removeProgressAufsicht((int)this.transform.localPosition.x,(int)this.transform.localPosition.y,shape,projectionAufsichtTransform[1]);
+                GameController.instance.removeProgressAufsicht((int)this.transform.localPosition.z,(int)this.transform.localPosition.x,shape,projectionAufsichtTransform[1]);
             }
         }
         catch(Exception e)
@@ -591,7 +595,7 @@ public class ShadowThrower : MonoBehaviour
                         break;
                 }
                 Destroy(this.projectionSeitenansicht);
-                GameController.instance.removeProgressSeitenansicht((int)this.transform.localPosition.x, (int)this.transform.localPosition.y, shape, projectionSeitenansichtTransform[1]);
+                GameController.instance.removeProgressSeitenansicht((-(int)this.transform.localPosition.x+3)%4, ((int)this.transform.localPosition.y), shape, projectionSeitenansichtTransform[1]);
             }
         }
         catch (Exception e)
@@ -617,7 +621,7 @@ public class ShadowThrower : MonoBehaviour
                         break;
                 }
                 Destroy(this.projectionVorderansicht);
-                GameController.instance.removeProgressVorderansicht((int)this.transform.localPosition.x, (int)this.transform.localPosition.y, shape, projectionVorderansichtTransform[1]);
+                GameController.instance.removeProgressVorderansicht((int)this.transform.localPosition.z, (int)this.transform.localPosition.y, shape, projectionVorderansichtTransform[1]);
             }
         }
         catch (Exception e)

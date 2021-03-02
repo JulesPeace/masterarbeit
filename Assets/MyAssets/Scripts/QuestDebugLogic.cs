@@ -30,6 +30,10 @@ public class QuestDebugLogic : MonoBehaviour
             else DebugUIBuilder.instance.Show();
             inMenu = !inMenu;
         }
+        if (OVRInput.GetDown(OVRInput.Button.Four))
+        {
+            logText.text = "";
+        }
     }
 
     public void log(string message)
