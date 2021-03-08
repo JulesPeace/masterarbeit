@@ -8,8 +8,9 @@ public class ShadowThrower : MonoBehaviour
     public GameObject vorderansicht_plane;
     public GameObject seitenansicht_plane;
     public GameObject aufsicht_plane;
+    public GameObject gameArea_plane;
     public GameObject shadowProjection;
-    public GameObject targetProjection;
+    private GameObject targetProjection;
     private GameObject projectionAufsicht;
     /// <summary>
     /// 1st entry is shape (rectangle,triangle,circle),2nd entry is rotation 
@@ -28,6 +29,7 @@ public class ShadowThrower : MonoBehaviour
     public Material correctColor;
     public Material incorrectColor;
     public Material targetColor;
+    public Material gameAreaTargetColor;
     public GameObject TestProjectionRemoveMeLater;
     private static Vector3[] RectangleVertices = new Vector3[] { new Vector3(-0.5f, 0f, -0.5f), new Vector3(0.5f, 0f, -0.5f), new Vector3(0.5f, 0f, 0.5f), new Vector3(-0.5f, 0f, 0.5f) };
 
@@ -67,7 +69,7 @@ public class ShadowThrower : MonoBehaviour
 
     public void createTargetProjection(string parentPlane, int x, int y, int shape, int rotationInByte)
     {
-        GameObject plane = new GameObject();
+        GameObject plane=null;
         if (parentPlane.ToLower().Equals("seitenansicht"))
         {
             plane = seitenansicht_plane;
@@ -80,10 +82,21 @@ public class ShadowThrower : MonoBehaviour
         {
             plane = aufsicht_plane;
         }
+        if (parentPlane.ToLower().Equals("gamearea"))
+        {
+            plane = gameArea_plane;
+        }
         GameObject target = Instantiate(shadowProjection, plane.transform, false);
         target.transform.localPosition = new Vector3(this.transform.localPosition.x * 2 - 4f, 0.0025f, this.transform.localPosition.z * 2 - 4f);
         target.transform.localScale = new Vector3(2, 2, 2);
-        target.GetComponent<MeshRenderer>().material = targetColor;
+        if (!parentPlane.ToLower().Equals("gamearea"))
+        {
+            target.GetComponent<MeshRenderer>().material = targetColor;
+        }
+        else
+        {
+            target.GetComponent<MeshRenderer>().material = gameAreaTargetColor;
+        }
         Mesh mesh = new Mesh();
         if (shape == 0)
         {

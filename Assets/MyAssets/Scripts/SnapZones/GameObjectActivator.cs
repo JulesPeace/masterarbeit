@@ -7,6 +7,10 @@ public class GameObjectActivator : MonoBehaviour
 {
     public SnapZoneConfigurator configurator;
     public GameObject toBeActivated;
+    /// <summary>
+    /// variable used to make sure, that a neighbour, that is being deactivated by this.gameObject.snapzonefacade.unsnap(), doesn't deactivate this snapZone in return
+    /// </summary>
+    public bool origin;
     //public SnapZoneFacade facade;
     // Start is called before the first frame update
 
@@ -24,7 +28,14 @@ public class GameObjectActivator : MonoBehaviour
 
     public void activate()
     {
-        GameController.instance.activateDeactivateNeighbours(this.gameObject,true);
+        try
+        { 
+            GameController.instance.activateDeactivateNeighbours(this.gameObject, true);
+        }
+        catch (Exception e)
+        {
+            QuestDebugLogic.instance.log("Fehler bei deactivate(): " + e.Message);
+        }
         /*if (toBeActivated != null)
         {
             toBeActivated.SetActive(true);
@@ -33,8 +44,16 @@ public class GameObjectActivator : MonoBehaviour
 
     public void deactivate()
     {
-
-        GameController.instance.activateDeactivateNeighbours(this.gameObject, false);
+        try
+        {
+            origin = true;
+            GameController.instance.activateDeactivateNeighbours(this.gameObject, false);
+            origin = false;
+        }
+        catch(Exception e)
+        {
+            QuestDebugLogic.instance.log("Fehler bei deactivate(): "+e.Message);
+        }
         /*
         try
         {

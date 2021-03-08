@@ -145,7 +145,7 @@ public class GameController : MonoBehaviour
             //QuestDebugLogic.instance.log(msg);
             currentProgressSeitenansicht[x, y, 2, 0] -= 1;
         }
-        //QuestDebugLogic.instance.log("Input: " + x + "," + y + "," + shape + ", " + rotation + "0; currentProgressSeitenansicht ist" + GameController.instance.arrayToString(GameController.instance.currentProgressSeitenansicht));
+        QuestDebugLogic.instance.logL("Input: " + x + "," + y + "," + shape + ", " + rotation + "0; currentProgressSeitenansicht ist" + GameController.instance.arrayToString(GameController.instance.currentProgressSeitenansicht));
         //msg += ("\nafter " + x + ", " + y + ", " + shape + ", " + rotation + ":\n" + currentProgressSeitenansicht[x, y, shapeStringToIndex(shape), 0]);
         //QuestDebugLogic.instance.log(msg);
     }
@@ -171,6 +171,7 @@ public class GameController : MonoBehaviour
         {
             currentProgressVorderansicht[x, y, 2, 0] -= 1;
         }
+        QuestDebugLogic.instance.logR("Input: " + x + "," + y + "," + shape + ", " + rotation + "0; currentProgressVorderansicht ist" + GameController.instance.arrayToString(GameController.instance.currentProgressVorderansicht));
     }
 
     public void insertProgressAufsicht(int x, int y, string shape, int rotation)
@@ -193,6 +194,7 @@ public class GameController : MonoBehaviour
         {
             currentProgressAufsicht[x, y, 2, 0] += 1;
         }
+        QuestDebugLogic.instance.log("Input: " + x + "," + y + "," + shape + ", " + rotation + "0; currentProgressAufsicht ist" + GameController.instance.arrayToString(GameController.instance.currentProgressAufsicht));
     }
 
     public void insertProgressSeitenansicht(int x, int y, string shape, int rotation)
@@ -217,6 +219,7 @@ public class GameController : MonoBehaviour
         {
             currentProgressSeitenansicht[x, y, 2, 0] += 1;
         }
+        QuestDebugLogic.instance.logL("Input: " + x + "," + y + "," + shape + ", " + rotation + "0; currentProgressSeitenansicht ist" + GameController.instance.arrayToString(GameController.instance.currentProgressSeitenansicht));
     }
 
     public void insertProgressVorderansicht(int x, int y, string shape, int rotation)
@@ -239,6 +242,7 @@ public class GameController : MonoBehaviour
         {
             currentProgressVorderansicht[x, y, 2, 0] += 1;
         }
+        QuestDebugLogic.instance.logR("Input: " + x + "," + y + "," + shape + ", " + rotation + "0; currentProgressVorderansicht ist" + GameController.instance.arrayToString(GameController.instance.currentProgressVorderansicht));
     }
 
     void createPlayArea()
@@ -260,6 +264,7 @@ public class GameController : MonoBehaviour
                         if (targetAufsicht[z, x, m, y] > 0)
                         {
                             playArea[x, y, z].GetComponent<ShadowThrower>().createTargetProjection("aufsicht", z, x, m, y);
+                            playArea[x, y, z].GetComponent<ShadowThrower>().createTargetProjection("gameArea", z, x, m, y);
                         }
                         if (targetSeitenansicht[z, x, m, y] > 0)
                         {
@@ -295,7 +300,7 @@ public class GameController : MonoBehaviour
 
     public void deactivateSnapZone(GameObject snapZone)
     {
-        snapZone.GetComponent<ShadowThrower>().destroyProjection();
+        //snapZone.GetComponent<ShadowThrower>().destroyProjection();
         snapZone.GetComponentInChildren<SnapZoneConfigurator>().Unsnap();
         snapZone.SetActive(false);
         //TODO checkVictory
@@ -426,10 +431,10 @@ public class GameController : MonoBehaviour
             }
             else
             {
-                if (index[1] != 0 && (neighboursSnapped(new int[] { index[0]-1,index[1],index[2] })<2))
+                if (index[1] != 0 && (neighboursSnapped(new int[] { index[0]-1,index[1],index[2] })<2)&& !playArea[index[0] - 1, index[1], index[2]].GetComponent<GameObjectActivator>().origin)
                 {
                     deactivateSnapZone(playArea[index[0] - 1, index[1], index[2]]);
-                    QuestDebugLogic.instance.log("x-1 nachbar deaktiveirt");
+                    //QuestDebugLogic.instance.log("x-1 nachbar deaktiveirt");
                 }
             }
         }
@@ -441,12 +446,13 @@ public class GameController : MonoBehaviour
             }
             else
             {
-                if ((index[1] != 0) && (neighboursSnapped(new int[] { index[0] + 1, index[1], index[2] })<2))
+                if ((index[1] != 0) && (neighboursSnapped(new int[] { index[0] + 1, index[1], index[2] })<2)&&!playArea[index[0] + 1, index[1], index[2]].GetComponent<GameObjectActivator>().origin)
                 {
                     deactivateSnapZone(playArea[index[0] + 1, index[1], index[2]]);
                 }
             }
         }
+        //TODO Die Snapzone darunter muss ggf. aktiviert/deaktiviert werden!
         //Die Snapzone darunter muss weder aktiviert noch deaktiviert werden!
         /*if (index[1] != 0)
         {
@@ -467,7 +473,7 @@ public class GameController : MonoBehaviour
             }
             else
             {
-                if(neighboursSnapped(new int[] { index[0], index[1] + 1, index[2] })<2)
+                if((neighboursSnapped(new int[] { index[0], index[1] + 1, index[2] })<2)&& !playArea[index[0], index[1]+1, index[2]].GetComponent<GameObjectActivator>().origin)
                 {
                     deactivateSnapZone(playArea[index[0], index[1] + 1, index[2]]);
                 }
@@ -481,7 +487,7 @@ public class GameController : MonoBehaviour
             }
             else
             {
-                if ((index[1] != 0) && (neighboursSnapped(new int[] { index[0], index[1], index[2] - 1 })<2))
+                if ((index[1] != 0) && (neighboursSnapped(new int[] { index[0], index[1], index[2] - 1 })<2) && !playArea[index[0], index[1], index[2]-1].GetComponent<GameObjectActivator>().origin)
                 {
                     deactivateSnapZone(playArea[index[0], index[1], index[2] - 1]);
                 }
@@ -495,7 +501,7 @@ public class GameController : MonoBehaviour
             }
             else
             {
-                if ((index[1] != 0) && (neighboursSnapped(new int[] { index[0], index[1], index[2] + 1 })<2))
+                if ((index[1] != 0) && (neighboursSnapped(new int[] { index[0], index[1], index[2] + 1 })<2) && !playArea[index[0], index[1], index[2]+1].GetComponent<GameObjectActivator>().origin)
                 {
                     deactivateSnapZone(playArea[index[0], index[1], index[2] + 1]);
                 }
@@ -697,6 +703,7 @@ public class GameController : MonoBehaviour
                         || (currentProgress[i, j, 2, 0] != 0)
                         )
                     {
+                        QuestDebugLogic.instance.log("false weil progress bei "+i+","+j+",x,x ungleich 0 war, aber 0 sein sollte.");
                         return false;
                     }
                 }
@@ -707,12 +714,13 @@ public class GameController : MonoBehaviour
                         if (k == 0)
                         {
                             if (
-                                (target[i, j, 0, 0] > 0)
+                                (target[i, j, k, 0] > 0)
                                 && (currentProgress[i, j, 0, 0] == 0)
-                                && ((currentProgress[i, j, 1, 1] == 0) || (currentProgress[i, j, 1, 1] == 0))
-                                && ((currentProgress[i, j, 1, 2] == 0) || (currentProgress[i, j, 1, 4] == 0))
+                                && ((currentProgress[i, j, 1, 0] == 0) || (currentProgress[i, j, 1, 2] == 0))
+                                && ((currentProgress[i, j, 1, 1] == 0) || (currentProgress[i, j, 1, 3] == 0))
                                 )
                             {
+                                QuestDebugLogic.instance.log("false weil progress bei " + i + "," + j + ",0,0 = 0 war und auch nicht bei zwei dazu passenden Dreiecken >0, aber >0 sein sollte.");
                                 return false;
                             }
                         }
@@ -733,6 +741,7 @@ public class GameController : MonoBehaviour
                                         )
                                     )
                                 {
+                                    QuestDebugLogic.instance.log("false weil progress bei " + i + "," + j +","+k+","+l+ " = 0 war oder bei quadrat/gedrehtem Dreieck >0, aber target dort >0 ist.");
                                     return false;
                                 }
                             }
@@ -751,15 +760,17 @@ public class GameController : MonoBehaviour
                                     || (currentProgress[i, j, 0, 0] > 0))
                                     )
                             {
+                                QuestDebugLogic.instance.log("false weil progress bei " + i + "," + j + ",2,0 = 0 war oder bei Quadrat/Dreieck dort >0, aber >0 sein sollte.");
                                 return false;
                             }
                         }
-
+                        else
                         {
                             for (int l = 0; l < 4; l++)
                             {
                                 if (target[i, j, k, l] != currentProgress[i, j, k, l])
                                 {
+                                    QuestDebugLogic.instance.log("false weil index zu weit geht (k war nicht 0, 1 oder 2)");
                                     return false;
                                 }
                             }
@@ -801,7 +812,9 @@ public class GameController : MonoBehaviour
         {
             msg += "bug in vorderansicht" + e.Message;
         }
-        QuestDebugLogic.instance.log(QuestDebugLogic.logText.text+msg+"\naufsicht = "+aufsicht+"\nseitenansicht = "+seitenansicht+"\nvorderansicht = "+vorderansicht);
+        //QuestDebugLogic.instance.log(/*QuestDebugLogic.logTextM.text*/arrayToString(targetAufsicht)+msg+"\nAufsicht korrekt: "+aufsicht);
+        QuestDebugLogic.instance.logL(/*QuestDebugLogic.logTextL.text+=*/arrayToString(targetSeitenansicht)+"\nSeitenansicht korrekt: " +seitenansicht);
+        QuestDebugLogic.instance.logR(/*QuestDebugLogic.logTextR.text +=*/arrayToString(targetVorderansicht)+ "\nVorderansicht korrekt: " + vorderansicht);
         if (seitenansicht && vorderansicht && aufsicht)
         {
             return true;

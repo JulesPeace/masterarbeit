@@ -54,7 +54,62 @@ public class PrefabGenerator : MonoBehaviour
         return target;
     }
 
-    public void generatePrefab(float x, float y, float z, GameObject prefab)
+    public void generatePrefab(Transform parentTransform, GameObject prefab)
+    {
+        /*try
+        {
+            Debug.Log(this.instances[0]);
+            /*   if (this.instances == null)
+               {
+                   this.instances = new GameObject[this.limit];
+               }
+        }/*
+        /*catch
+        {
+            this.instances = new GameObject[this.limit];
+        }*/
+        //Debug.Log("Durchlauf " + this.instanceCount + " mit prefab " + prefab.name + ".");
+        /*int j=0;
+        while (this.instances[j] != null)
+        {
+            //Debug.Log("instances["+j+"] ist "+this.instances[j]);
+            j++;
+        }*/
+            if (wedgePrefab.name.Equals(prefab.name))
+            {
+            instances[instanceCount] = Instantiate(wedgePrefab, parentTransform, false);
+            }
+            if (cubePrefab.name.Equals(prefab.name))
+            {
+            instances[instanceCount] = Instantiate(cubePrefab, parentTransform, false);
+            }
+            if (prismPrefab.name.Equals(prefab.name))
+            {
+            instances[instanceCount] = Instantiate(prismPrefab, parentTransform, false);
+            }
+        /*Debug.Log(instances[0]);
+        Debug.Log(instances[1]);
+        Debug.Log(instances[2]);*/
+        // Rigidbody a = instances[i].GetComponent(typeof(Rigidbody)) as Rigidbody;
+        // a.useGravity = true;
+        //Debug.Log(a.useGravity);
+        this.instances[instanceCount].GetComponent<Rigidbody>().isKinematic = true;
+        //Debug.Log(instances[instanceCount].GetComponent<Rigidbody>());
+        //this.instances[instanceCount].transform.localScale = new Vector3(0.08f, 0.08f, 0.08f);
+        this.instances[instanceCount].transform.localPosition = new Vector3(0, 0, 0);
+        this.instances[instanceCount].transform.localRotation = Quaternion.identity;
+        this.instances[instanceCount].GetComponent<Rigidbody>().isKinematic = false;
+        //Debug.Log("Typname ist " + instances[instanceCount].GetType() + ", LIES DAS!!!!!! Name ist "+instances[instanceCount].name);
+        instanceCount++;
+        //Debug.Log("Ende des generatePrefab von "+prefab.name+": "+this.instances.ToString());
+        //Debug.Log(this.instances[0]);
+        //QuestDebugLogic.instance.log(this.instances.ToString());
+        //}
+        Debug.Log("Interactable prefabs nciht erkannt");
+        //return null;
+    }
+
+    public GameObject generatePrefab(float x, float y, float z, GameObject prefab)
     {
         try
         {
@@ -105,6 +160,7 @@ public class PrefabGenerator : MonoBehaviour
             //Debug.Log(this.instances[0]);
             //QuestDebugLogic.instance.log(this.instances.ToString());
         }
+        return instances[instanceCount-1];
     }
 
     public void generatePrefab(GameObject prefab)

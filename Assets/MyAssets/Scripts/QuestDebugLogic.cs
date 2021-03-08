@@ -7,7 +7,9 @@ public class QuestDebugLogic : MonoBehaviour
 {
     public static QuestDebugLogic instance;
     private bool inMenu;
-    public static Text logText;
+    public static Text logTextM;
+    public static Text logTextL;
+    public static Text logTextR;
     // Start is called before the first frame update
 
     private void Awake()
@@ -17,8 +19,12 @@ public class QuestDebugLogic : MonoBehaviour
 
     void Start()
     {
+        RectTransform rtL = DebugUIBuilder.instance.AddLabel("DebugL",2);
         RectTransform rt = DebugUIBuilder.instance.AddLabel("Debug");
-        logText = rt.GetComponent<Text>();
+        RectTransform rtR = DebugUIBuilder.instance.AddLabel("DebugR",1);
+        logTextM = rt.GetComponent<Text>();
+        logTextL = rtL.GetComponent<Text>();
+        logTextR = rtR.GetComponent<Text>();
     }
 
     // Update is called once per frame
@@ -32,12 +38,22 @@ public class QuestDebugLogic : MonoBehaviour
         }
         if (OVRInput.GetDown(OVRInput.Button.Four))
         {
-            logText.text = "";
+            logTextM.text = "";
         }
     }
 
     public void log(string message)
     {
-        logText.text = message;
+        logTextM.text = message;
+    }
+
+    public void logL(string message)
+    {
+        logTextL.text = message;
+    }
+
+    public void logR(string message)
+    {
+        logTextR.text = message;
     }
 }
