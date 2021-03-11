@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Tilia.Interactions.SnapZone;
+using UnityEngine.VFX;
 
 public class GameController : MonoBehaviour
 {
@@ -509,8 +510,34 @@ public class GameController : MonoBehaviour
         }
         if (checkVictory())
         {
+            /*VisualEffect vfx = new VisualEffect();
+            vfx.SendEvent("victory");
+            vfx.SendEvent("OnPlay");*/
             QuestDebugLogic.instance.log("geschafft! Alpha 0.7 komplettiert!");
+            StartCoroutine(fireworks());
         }
+    }
+
+    private IEnumerator fireworks()
+    {
+        QuestDebugLogic.instance.log("Coroutine gestartet");
+        VisualEffect vfx = new VisualEffect();
+        try
+        {
+            vfx.SendEvent("victory");
+            QuestDebugLogic.instance.log("vfx event victory geladen");
+            vfx.SendEvent("OnPlay");
+            QuestDebugLogic.instance.log(QuestDebugLogic.logTextM.text+"\nvfx event OnPlay geladen");
+        }
+        catch(Exception e)
+        {
+            QuestDebugLogic.instance.log("Fehler beim vfx event: "+e.Message);
+        }
+        vfx.SendEvent("victory");
+        yield return new WaitForSeconds(.8f);
+        vfx.SendEvent("victory");
+        yield return new WaitForSeconds(.8f);
+        vfx.SendEvent("victory");
     }
 
     private int[] getIndexOfSnapZoneInPlayArea(GameObject gameObject)
