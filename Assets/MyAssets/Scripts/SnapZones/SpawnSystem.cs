@@ -63,19 +63,8 @@ public class SpawnSystem : MonoBehaviour
             PrefabGenerator.instance.generatePrefab(this.transform,prefabToCopy);
             PrefabGenerator.instance.instances[PrefabGenerator.instance.instanceCount - 1].GetComponent<Rigidbody>().isKinematic = true;
             snap.Snap(PrefabGenerator.instance.instances[PrefabGenerator.instance.instanceCount-1]);
-            //StartCoroutine("kinematicWorkAround", PrefabGenerator.instance.instances[PrefabGenerator.instance.instanceCount - 1]);
             PrefabGenerator.instance.instances[PrefabGenerator.instance.instanceCount - 1].GetComponent<Rigidbody>().isKinematic = false;
-            //unsnappedObject.GetComponent<Rigidbody>().isKinematic = false;
         }
-        //GameObject interactable = PrefabGenerator.instance.instances[PrefabGenerator.instance.instanceCount-1];
-        //interactable.GetComponent<Rigidbody>().MovePosition(snap.transform.position);
-        //interactable.GetComponent<Rigidbody>().isKinematic = false;
-        //interactable.GetComponent<Rigidbody>().useGravity = true;
-        //snap.Snap(PrefabGenerator.instance.generatePrefab(this.transform, prefabToCopy));
-
-        /* TODO RÜCKGÄNGIG MACHEN! Das hier statt der oberen Zeile.
-        * PrefabGenerator.instance.instances[PrefabGenerator.instance.instanceCount - 1].transform.parent=this.transform;
-        * snap.Snap(PrefabGenerator.instance.instances[PrefabGenerator.instance.instanceCount - 1]);*/
     }
 
     // Update is called once per frame

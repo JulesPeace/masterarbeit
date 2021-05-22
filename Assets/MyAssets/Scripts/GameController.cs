@@ -14,6 +14,7 @@ public class GameController : MonoBehaviour
     public GameObject snapZonesGame;
     private GameObject[,,] playArea;
     public GameObject debugRemoveMeLater;
+    public GameObject vfxGameObject;
 
 
     public static GameController instance;
@@ -40,9 +41,6 @@ public class GameController : MonoBehaviour
     void Start()
     {
         szenario1();
-        //playArea[0,2,1].GetComponent<ShadowThrower>().project(debugRemoveMeLater);
-        Debug.Log("targetSeitenansicht ist "+arrayToString(targetSeitenansicht));
-        Debug.Log("currentProgressSeitenansicht ist " + arrayToString(currentProgressSeitenansicht));
     }
 
     public string arrayToString(byte[,,,] arr)
@@ -121,17 +119,12 @@ public class GameController : MonoBehaviour
 
     public void removeProgressSeitenansicht(int x, int y, string shape, int rotation)
     {
-        //string msg="";
         if (shape.ToLower().Equals("rectangle"))
         {
-            //msg+=("before "+x+", "+y+", "+shape+", "+rotation+":\n"+ currentProgressSeitenansicht[x, y, shapeStringToIndex(shape), 0]);
-            //QuestDebugLogic.instance.log(msg);
             currentProgressSeitenansicht[x, y, 0, 0] -= 1;
         }
         if (shape.ToLower().Equals("triangle"))
         {
-           // msg += ("before " + x + ", " + y + ", " + shape + ", " + rotation + ":\n" + currentProgressSeitenansicht[x, y, 1, rotation / 90]);
-            //QuestDebugLogic.instance.log(msg);
             currentProgressSeitenansicht[x, y, 1, rotation/90] -= 1;
             //2 triangles can be 1 rectangle
             int compareIndex = (rotation/90 + 2) % 4;
@@ -142,13 +135,8 @@ public class GameController : MonoBehaviour
         }
         if (shape.ToLower().Equals("circle"))
         {
-            //msg += ("before " + x + ", " + y + ", " + shape + ", " + rotation + ":\n" + currentProgressSeitenansicht[x, y, 2, 0]);
-            //QuestDebugLogic.instance.log(msg);
             currentProgressSeitenansicht[x, y, 2, 0] -= 1;
         }
-        QuestDebugLogic.instance.logL("Input: " + x + "," + y + "," + shape + ", " + rotation + "0; currentProgressSeitenansicht ist" + GameController.instance.arrayToString(GameController.instance.currentProgressSeitenansicht));
-        //msg += ("\nafter " + x + ", " + y + ", " + shape + ", " + rotation + ":\n" + currentProgressSeitenansicht[x, y, shapeStringToIndex(shape), 0]);
-        //QuestDebugLogic.instance.log(msg);
     }
 
 
@@ -172,7 +160,6 @@ public class GameController : MonoBehaviour
         {
             currentProgressVorderansicht[x, y, 2, 0] -= 1;
         }
-        QuestDebugLogic.instance.logR("Input: " + x + "," + y + "," + shape + ", " + rotation + "0; currentProgressVorderansicht ist" + GameController.instance.arrayToString(GameController.instance.currentProgressVorderansicht));
     }
 
     public void insertProgressAufsicht(int x, int y, string shape, int rotation)
@@ -195,16 +182,13 @@ public class GameController : MonoBehaviour
         {
             currentProgressAufsicht[x, y, 2, 0] += 1;
         }
-        QuestDebugLogic.instance.log("Input: " + x + "," + y + "," + shape + ", " + rotation + "0; currentProgressAufsicht ist" + GameController.instance.arrayToString(GameController.instance.currentProgressAufsicht));
     }
 
     public void insertProgressSeitenansicht(int x, int y, string shape, int rotation)
     {
-        Debug.Log(x + "," + y + "," + shape + "," + rotation);
         if (shape.ToLower().Equals("rectangle"))
         {
             currentProgressSeitenansicht[x, y, 0, 0] += 1;
-            Debug.Log("daraus folgt currentPorgressSeietenansicht ist dort"+ currentProgressSeitenansicht[x, y, 0, 0]);
         }
         if (shape.ToLower().Equals("triangle"))
         {
@@ -220,7 +204,6 @@ public class GameController : MonoBehaviour
         {
             currentProgressSeitenansicht[x, y, 2, 0] += 1;
         }
-        QuestDebugLogic.instance.logL("Input: " + x + "," + y + "," + shape + ", " + rotation + "0; currentProgressSeitenansicht ist" + GameController.instance.arrayToString(GameController.instance.currentProgressSeitenansicht));
     }
 
     public void insertProgressVorderansicht(int x, int y, string shape, int rotation)
@@ -243,7 +226,6 @@ public class GameController : MonoBehaviour
         {
             currentProgressVorderansicht[x, y, 2, 0] += 1;
         }
-        QuestDebugLogic.instance.logR("Input: " + x + "," + y + "," + shape + ", " + rotation + "0; currentProgressVorderansicht ist" + GameController.instance.arrayToString(GameController.instance.currentProgressVorderansicht));
     }
 
     void createPlayArea()
@@ -255,7 +237,6 @@ public class GameController : MonoBehaviour
             {
                 for (int z = 0; z < height; z++)
                 {
-                    //Debug.Log("Creating SnapZone at ["+i+","+j+","+k+"]");
                     playArea[x, y, z] = snapZonesGame.GetComponent<SnapZoneGenerator>().generateSnapZone();
                     GameObject current = playArea[x, y, z];
                     current.transform.localPosition = new Vector3(x, y, z);
@@ -264,16 +245,16 @@ public class GameController : MonoBehaviour
                     {
                         if (targetAufsicht[z, x, m, y] > 0)
                         {
-                            playArea[x, y, z].GetComponent<ShadowThrower>().createTargetProjection("aufsicht", z, x, m, y);
-                            playArea[x, y, z].GetComponent<ShadowThrower>().createTargetProjection("gameArea", z, x, m, y);
+                            playArea[x, y, z].GetComponent<ShadowThrower>().createTargetProjection("aufsicht", x, z, m, y);
+                            playArea[x, y, z].GetComponent<ShadowThrower>().createTargetProjection("gameArea", x, z, m, y);
                         }
                         if (targetSeitenansicht[z, x, m, y] > 0)
                         {
-                            playArea[x, y, z].GetComponent<ShadowThrower>().createTargetProjection("seitenansicht", z, x, m, y);
+                            playArea[x, y, z].GetComponent<ShadowThrower>().createTargetProjection("seitenansicht", (-z+3)%4, x, m, (y+1)%4);
                         }
                         if (targetVorderansicht[z, x, m, y] > 0)
                         {
-                            playArea[x, y, z].GetComponent<ShadowThrower>().createTargetProjection("vorderansicht", z, x, m, y);
+                            playArea[x, y, z].GetComponent<ShadowThrower>().createTargetProjection("vorderansicht", x, z, m, y);
                         }
                     }
                     if (current.transform.localPosition.y != 0)
@@ -292,23 +273,12 @@ public class GameController : MonoBehaviour
     public void activateSnapZone(GameObject snapZone)
     {
         snapZone.SetActive(true);
-        //TODO checkVictory
-        /*if (checkVictory())
-        {
-            QuestDebugLogic.instance.log("Geschafft! alpha 0.6 komplettiert!");
-        }*/
     }
 
     public void deactivateSnapZone(GameObject snapZone)
     {
-        //snapZone.GetComponent<ShadowThrower>().destroyProjection();
         snapZone.GetComponentInChildren<SnapZoneConfigurator>().Unsnap();
         snapZone.SetActive(false);
-        //TODO checkVictory
-        /*if (checkVictory())
-        {
-            QuestDebugLogic.instance.log("Geschafft! alpha 0.6 komplettiert!");
-        }*/
     }
 
     /// <summary>
@@ -364,66 +334,12 @@ public class GameController : MonoBehaviour
         return count;
     }
 
-    /*private byte isNeighbourSnapped(GameObject snapzone)
-    {
-        return neighboursSnapped(getIndexOfSnapZoneInPlayArea(snapzone));
-    }*/
+
 
     ///true if activating, false if deactivating
     public void activateDeactivateNeighbours(GameObject snapZone, bool activate)
     {
         int[] index = getIndexOfSnapZoneInPlayArea(snapZone);
-        //TODO remove debug
-        /*string msg = "Neighbour counts sind: (";
-        try
-        {
-            msg += neighboursSnapped(new int[] { index[0] - 1, index[1], index[2] })+", ";
-        }
-        catch
-        {
-            msg += "x=0, ";
-        }
-        try
-        {
-            msg += neighboursSnapped(new int[] { index[0] + 1, index[1], index[2] })+", ";
-        }
-        catch
-        {
-            msg += "x=max, ";
-        }
-        try
-        {
-            msg += neighboursSnapped(new int[] { index[0], index[1]-1, index[2] }) + ", ";
-        }
-        catch
-        {
-            msg += "y=0, ";
-        }
-        try
-        {
-            msg += neighboursSnapped(new int[] { index[0], index[1]+1, index[2] }) + ", ";
-        }
-        catch
-        {
-            msg += "y=max, ";
-        }
-        try
-        {
-            msg += neighboursSnapped(new int[] { index[0], index[1], index[2]-1 }) + ", ";
-        }
-        catch
-        {
-            msg += "z=0, ";
-        }
-        try
-        {
-            msg += neighboursSnapped(new int[] { index[0], index[1], index[2]+1 }) + ", ";
-        }
-        catch
-        {
-            msg += "z=max)";
-        }
-        QuestDebugLogic.instance.log(msg);*/
         if (index[0] != 0)
         {
             if (activate)
@@ -435,7 +351,6 @@ public class GameController : MonoBehaviour
                 if (index[1] != 0 && (neighboursSnapped(new int[] { index[0]-1,index[1],index[2] })<2)&& !playArea[index[0] - 1, index[1], index[2]].GetComponent<GameObjectActivator>().origin)
                 {
                     deactivateSnapZone(playArea[index[0] - 1, index[1], index[2]]);
-                    //QuestDebugLogic.instance.log("x-1 nachbar deaktiveirt");
                 }
             }
         }
@@ -510,9 +425,6 @@ public class GameController : MonoBehaviour
         }
         if (checkVictory())
         {
-            /*VisualEffect vfx = new VisualEffect();
-            vfx.SendEvent("victory");
-            vfx.SendEvent("OnPlay");*/
             QuestDebugLogic.instance.log("geschafft! Alpha 0.7 komplettiert!");
             StartCoroutine(fireworks());
         }
@@ -521,23 +433,24 @@ public class GameController : MonoBehaviour
     private IEnumerator fireworks()
     {
         QuestDebugLogic.instance.log("Coroutine gestartet");
-        VisualEffect vfx = new VisualEffect();
+        vfxGameObject.SetActive(true);
+        VisualEffect vfx = vfxGameObject.GetComponent<VisualEffect>();
         try
         {
             vfx.SendEvent("victory");
-            QuestDebugLogic.instance.log("vfx event victory geladen");
-            vfx.SendEvent("OnPlay");
-            QuestDebugLogic.instance.log(QuestDebugLogic.logTextM.text+"\nvfx event OnPlay geladen");
+            QuestDebugLogic.instance.log(QuestDebugLogic.logTextM.text + "\nvfx event victory geladen");
+            //vfx.SendEvent("victory");
+            //QuestDebugLogic.instance.log(QuestDebugLogic.logTextM.text + "\nvfx event victory geladen");
         }
         catch(Exception e)
         {
-            QuestDebugLogic.instance.log("Fehler beim vfx event: "+e.Message);
+            QuestDebugLogic.instance.log(QuestDebugLogic.logTextM.text + "\nFehler beim vfx event: " +e.Message);
         }
-        vfx.SendEvent("victory");
         yield return new WaitForSeconds(.8f);
         vfx.SendEvent("victory");
         yield return new WaitForSeconds(.8f);
         vfx.SendEvent("victory");
+        yield return new WaitForSeconds(10);
     }
 
     private int[] getIndexOfSnapZoneInPlayArea(GameObject gameObject)
@@ -810,7 +723,6 @@ public class GameController : MonoBehaviour
 
     public bool checkVictory()
     {
-        //TODO a lot. compare all projections, check if rectangle meets 2 triangles, rectangle or 2 triangles > 1 circle
         string msg="";
         bool aufsicht = false;
         bool seitenansicht = false;
@@ -839,23 +751,11 @@ public class GameController : MonoBehaviour
         {
             msg += "bug in vorderansicht" + e.Message;
         }
-        //QuestDebugLogic.instance.log(/*QuestDebugLogic.logTextM.text*/arrayToString(targetAufsicht)+msg+"\nAufsicht korrekt: "+aufsicht);
-        QuestDebugLogic.instance.logL(/*QuestDebugLogic.logTextL.text+=*/arrayToString(targetSeitenansicht)+"\nSeitenansicht korrekt: " +seitenansicht);
-        QuestDebugLogic.instance.logR(/*QuestDebugLogic.logTextR.text +=*/arrayToString(targetVorderansicht)+ "\nVorderansicht korrekt: " + vorderansicht);
         if (seitenansicht && vorderansicht && aufsicht)
         {
             return true;
         }
         return false;
-
-        /*if(checkProjections(targetAufsicht,currentProgressAufsicht)
-            &&checkProjections(targetSeitenansicht,currentProgressSeitenansicht)
-            &&checkProjections(targetVorderansicht,currentProgressVorderansicht)
-            )
-        {
-            return true;
-        }
-        return false;*/
     }
 
     // Update is called once per frame

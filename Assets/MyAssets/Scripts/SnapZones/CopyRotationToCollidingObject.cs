@@ -32,34 +32,8 @@ public class CopyRotationToCollidingObject : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        Debug.Log("Collision detected");
-        Debug.Log("Objektname des kollidierten Objekts ist " + other.name + " und transformname ist " + other.transform.name + " und parentname ist " + other.transform.parent.name + ".");
-        //Debug.Log("this.tag ist "+ this.tag);
-        //Debug.Log("Tag des transforms ist "+ other.transform.tag);
-        //Debug.Log("tag des parents des transforms des ANDEREN Colliders ist " + other.transform.parent.tag);
-        //QuestDebugLogic.instance.log("other: "+other.transform.parent.tag);
-        /*try
-        {
-            Debug.Log("tag des parents des transforms des EIGENEN Colliders ist " + this.transform.parent.tag);
-        }
-        catch(System.Exception e)
-        {
-            Debug.Log("tag des parents des transforms des EIGENEN Colliders: nicht möglich! Wie fange ich hier die Exception ab?");
-            Debug.Log("Exception lautet: " + e.Message);
-        }
-        try
-        {
-            Debug.Log("Collider in self " + this.gameObject.GetComponent<Collider>());
-        }
-        catch
-        {
-            Debug.Log(this.gameObject.tag+" kann eigenen Collider nicht finden!");
-        }*/
-        //if (!other.CompareTag("Interactable") && !other.gameObject.CompareTag("Interactable"))
         if(other.transform.parent.CompareTag("SnapZone"))
         {
-            //Debug.Log("SnapZoneState is " + other.transform.parent.gameObject.GetComponent<SnapZoneFacade>().ZoneState.ToString());
-            //QuestDebugLogic.instance.log("SnapZoneState is " + other.transform.parent.gameObject.GetComponent<SnapZoneFacade>().ZoneState.ToString());
             if (!other.transform.parent.gameObject.GetComponent<SnapZoneFacade>().ZoneState.ToString().Equals("ZoneIsSnapped"))
             {
                 Quaternion rot = new Quaternion();
@@ -72,16 +46,13 @@ public class CopyRotationToCollidingObject : MonoBehaviour
                 angles.y = RoundMe(angles.y);
                 angles.z = RoundMe(angles.z);
                 rot = Quaternion.Euler(angles);
-                //Transform trans = new T;
                 //TODO parent.gameObject.transform zirkel?
                 other.gameObject.transform.parent.gameObject.transform.rotation = rot;
-                //Debug.Log("Rotation des mit dem Objekt kollidierten Objekts ist: " + other.gameObject.transform.parent.gameObject.transform.rotation.eulerAngles);
-                /*       Debug.Log("Collision detected");
-                       Debug.Log("Interactable rotation ist "+ this.gameObject.transform.rotation.ToString());
-                       Debug.Log("SnapZone rotation ist "+ other.gameObject.transform.parent.gameObject.transform.rotation.ToString());
-                       Debug.Log("Das auslösende Objekt ist " + this.gameObject.name + ", das kollidierende Objekt ist " + other.gameObject.transform.parent.gameObject.name);*/
-                //QuestDebugLogic.instance.log("Gedrehtes Object ist: " + other.transform.parent.tag);
-                //QuestDebugLogic.instance.log("SnapZoneState is " + other.transform.parent.gameObject.GetComponent<SnapZoneFacade>().ZoneState+" gedreht!");
+                MeshFilter fltr = other.gameObject.transform.parent.gameObject.GetComponentInChildren<MeshFilter>();
+                fltr.mesh = this.GetComponent<MeshFilter>().mesh;
+                fltr.mesh.RecalculateNormals();
+                fltr.mesh.RecalculateBounds();
+                fltr.mesh.RecalculateTangents();
             }
         }
     }
