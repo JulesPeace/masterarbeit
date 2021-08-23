@@ -3169,7 +3169,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myPrefab: {fileID: 821741950}
-  material: {fileID: 2100000, guid: 9b306e0d1b535b84e909650a75bcc218, type: 2}
+  material: {fileID: 2100000, guid: d1288f22522597447a55dea3e374588a, type: 2}
   radius: 0.5
   height: 1
   nextHeightDif: 1
@@ -3699,7 +3699,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 9b306e0d1b535b84e909650a75bcc218, type: 2}
+      objectReference: {fileID: 2100000, guid: 354674efb3bed0c47aa6b54065db6d83, type: 2}
     - target: {fileID: 8407923665379814195, guid: 4b31a8fec775487449f2e9e977953e54,
         type: 3}
       propertyPath: m_Materials.Array.data[1]
@@ -5622,7 +5622,7 @@ PrefabInstance:
     - target: {fileID: 11437430, guid: 84c8b8609f9bb434eaf5248f17ff1293, type: 3}
       propertyPath: Skinshaded_Expressive_SurfaceShader_SingleComponent
       value: 
-      objectReference: {fileID: 4800000, guid: 9aa46566e1d86644c9a55e3037e935f6, type: 3}
+      objectReference: {fileID: 4800000, guid: 93b478e926e46654889c1c20f87f253f, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 84c8b8609f9bb434eaf5248f17ff1293, type: 3}
 --- !u!4 &1648232387 stripped
@@ -6769,7 +6769,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 1cf84cd6cb7956c419797d52a83f04ae, type: 2}
+      objectReference: {fileID: 2100000, guid: d1288f22522597447a55dea3e374588a, type: 2}
     - target: {fileID: 8407923665379814195, guid: 4b31a8fec775487449f2e9e977953e54,
         type: 3}
       propertyPath: m_Materials.Array.data[1]
@@ -7597,6 +7597,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Interactable
       objectReference: {fileID: 0}
+    - target: {fileID: 5962871262110970698, guid: 7a5bb00e92b695e43a173978e6b47e07,
+        type: 3}
+      propertyPath: material
+      value: 
+      objectReference: {fileID: 2100000, guid: bf662d41e33f4e345bbc4150515cc441, type: 2}
     - target: {fileID: 6517950218289415528, guid: 7a5bb00e92b695e43a173978e6b47e07,
         type: 3}
       propertyPath: m_LocalRotation.x

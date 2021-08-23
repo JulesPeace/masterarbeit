@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Tilia.Interactions.Interactables.Interactables;
 using UnityEngine;
 
 public class DestroyCollidingGameObject : MonoBehaviour
@@ -11,9 +12,13 @@ public class DestroyCollidingGameObject : MonoBehaviour
         
     }
 
+
     void OnTriggerEnter(Collider col)
     {
-        Destroy(col.gameObject);
+        if (!col.gameObject.GetComponentInParent<InteractableFacade>().IsGrabbed)
+        {
+            Destroy(col.gameObject);
+        }
     }
 
     // Update is called once per frame
