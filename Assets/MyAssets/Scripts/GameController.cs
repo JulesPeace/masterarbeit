@@ -43,6 +43,16 @@ public class GameController : MonoBehaviour
         szenario1();
     }
 
+    // Update is called once per frame
+    public void Update()
+    {
+        if (OVRInput.GetDown(OVRInput.Button.One))
+        {
+            resetGame();
+            szenario1();
+        }
+    }
+
     public string arrayToString(byte[,,,] arr)
     {
         string res = "\n[";
@@ -268,6 +278,8 @@ public class GameController : MonoBehaviour
                 }
             }
         }
+        //make sure the initial objects, that are copied before, aren't deleted on game reset for further game rounds to be created
+        snapZonesGame.GetComponent<SnapZoneGenerator>().snapZone.GetComponent<dontDeleteMe>().dontDelete = true;
     }
 
     public void activateSnapZone(GameObject snapZone)
@@ -758,26 +770,32 @@ public class GameController : MonoBehaviour
         return false;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     private void resetGame()
     {
-        foreach(Transform snapZoneTransform in snapZonesGame.transform)
+        //make sure the initial shadowProjection, which is copied during the game, won't get deleted for further rounds.
+        snapZonesGame.GetComponent<SnapZoneGenerator>().snapZone.GetComponent<ShadowThrower>().shadowProjection.GetComponent<dontDeleteMe>().dontDelete = true;
+
+        foreach (Transform snapZoneTransform in snapZonesGame.transform)
         {
-            if(!snapZoneTransform.name.Equals("Interactions.SnapZone 0.0.0"))
+            if(!snapZoneTransform.name.Equals("Interactions.SnapZone 0.0.0")&&!snapZoneTransform.gameObject.GetComponent<dontDeleteMe>().dontDelete)
             {
                 Destroy(snapZoneTransform.gameObject);
             }
         }
+
+        //new snapZone copies shall be deleted in further rounds on reset
+        snapZonesGame.GetComponent<SnapZoneGenerator>().snapZone.GetComponent<dontDeleteMe>().dontDelete = false;
         //Destroy(snapZonesGame);
-        foreach(GameObject shadowProjection in GameObject.FindGameObjectsWithTag("ShadowProjection"))
+        foreach (GameObject shadowProjection in GameObject.FindGameObjectsWithTag("ShadowProjection"))
         {
-            Destroy(shadowProjection);
+            if (!shadowProjection.GetComponent<dontDeleteMe>().dontDelete) {
+                Destroy(shadowProjection);
+            }
+
         }
+        snapZonesGame.GetComponent<SnapZoneGenerator>().snapZone.GetComponent<ShadowThrower>().shadowProjection.GetComponent<dontDeleteMe>().dontDelete = false;
+
         targetAufsicht = new byte[4, 4, 3, 4];
         targetSeitenansicht = new byte[4, 4, 3, 4];
         targetVorderansicht = new byte[4, 4, 3, 4];
