@@ -31,6 +31,8 @@ public class ShadowThrower : MonoBehaviour
     public Material targetColor;
     public Material gameAreaTargetColor;
     public GameObject TestProjectionRemoveMeLater;
+    [HideInInspector]
+    public bool flagGroundConnection = false;
     private static Vector3[] RectangleVertices = new Vector3[] { new Vector3(-0.5f, 0f, -0.5f), new Vector3(0.5f, 0f, -0.5f), new Vector3(0.5f, 0f, 0.5f), new Vector3(-0.5f, 0f, 0.5f) };
 
     // Start is called before the first frame update
@@ -114,6 +116,7 @@ public class ShadowThrower : MonoBehaviour
         this.projectionAufsicht.transform.localScale = new Vector3(2, 2, 2);
         this.projectionAufsicht.GetComponent<MeshRenderer>().material = correctColor;
         Mesh mesh = new Mesh();
+        String shape=null;
         try
         {
             if (interactable.name.Contains("Cube"))
@@ -123,7 +126,7 @@ public class ShadowThrower : MonoBehaviour
                 if(!GameController.instance.checkCorrectnessAufsicht((int)this.transform.localPosition.z, (int)this.transform.localPosition.x, "rectangle", 0))
                 {
                     this.projectionAufsicht.GetComponent<MeshRenderer>().material = incorrectColor;
-                    this.projectionAufsicht.transform.localPosition -= new Vector3(0,0.005f,0);
+                    this.projectionAufsicht.transform.localPosition -= new Vector3(0,0,0);
                 }
                 projectionAufsichtTransform[0] = 0;
                 projectionAufsichtTransform[1] = 0;
@@ -149,7 +152,7 @@ public class ShadowThrower : MonoBehaviour
                     if (!GameController.instance.checkCorrectnessAufsicht((int)this.transform.localPosition.z, (int)this.transform.localPosition.x, "triangle", rot))
                     {
                         this.projectionAufsicht.GetComponent<MeshRenderer>().material = incorrectColor;
-                        this.projectionAufsicht.transform.localPosition -= new Vector3(0, 0.005f, 0);
+                        this.projectionAufsicht.transform.localPosition -= new Vector3(0, 0, 0);
                     }
                     projectionAufsichtTransform[0] = 1;
                     projectionAufsichtTransform[1] = rot;
@@ -168,7 +171,7 @@ public class ShadowThrower : MonoBehaviour
                     if (!GameController.instance.checkCorrectnessAufsicht((int)this.transform.localPosition.z, (int)this.transform.localPosition.x, "triangle", rot))
                     {
                         this.projectionAufsicht.GetComponent<MeshRenderer>().material = incorrectColor;
-                        this.projectionAufsicht.transform.localPosition -= new Vector3(0, 0.005f, 0);
+                        this.projectionAufsicht.transform.localPosition -= new Vector3(0, 0, 0);
                     }
                     projectionAufsichtTransform[0] = 1;
                     projectionAufsichtTransform[1] = rot;
@@ -180,7 +183,7 @@ public class ShadowThrower : MonoBehaviour
                     if (!GameController.instance.checkCorrectnessAufsicht((int)this.transform.localPosition.z, (int)this.transform.localPosition.x, "rectangle", 0))
                     {
                         this.projectionAufsicht.GetComponent<MeshRenderer>().material = incorrectColor;
-                        this.projectionAufsicht.transform.localPosition -= new Vector3(0, 0.005f, 0);
+                        this.projectionAufsicht.transform.localPosition -= new Vector3(0, 0, 0);
                     }
                     projectionAufsichtTransform[0] = 0;
                     projectionAufsichtTransform[1] = 0;
@@ -189,9 +192,43 @@ public class ShadowThrower : MonoBehaviour
             else
             if (interactable.name.Contains("Prism"))
             {
-                               //TODO: Rotationsabhängigkeit vom prisma UND isnertProgress() anpassen!
+                int x = (int)interactable.transform.rotation.eulerAngles.x % 180;
+                int y = (int)interactable.transform.rotation.eulerAngles.y % 180;
+                int z = (int)interactable.transform.rotation.eulerAngles.z % 180;
+                if ((x == 0 && y == 0 && z == 0) || (x == 0 && y == 90 && z == 0))
+                {
+                    //circle 
+                    circleMesh(mesh);
+                    shape = "circle";
+                    projectionAufsichtTransform[0] = 2;
+                    projectionAufsichtTransform[1] = 0;
+                }
+                else
+                if ((x == 0 && y == 90 && z == 90) || (x == 90 && y == 90 && z == 90) || (x == 90 && y == 0 && z == 0))
+                {
+                    //rect 
+                    rectangleMesh(mesh);
+                    shape = "rectangle";
+                    projectionAufsichtTransform[0] = 0;
+                    projectionAufsichtTransform[1] = 0;
+                }
+                else
+                if ((x == 0 && y == 0 && z == 90) || (x == 90 && y == 0 && z == 90) || (x == 90 && y == 90 && z == 0))
+                {
+                    //rect 
+                    rectangleMesh(mesh);
+                    shape = "rectangle";
+                    projectionAufsichtTransform[0] = 0;
+                    projectionAufsichtTransform[1] = 0;
+                }
+                else
+                {
+                    Debug.Log("Ungültige Rotation in projectVorderansicht, " + x + "," + y + "," + z);
+                }
+                //TODO: Rotationsabhängigkeit vom prisma UND isnertProgress() anpassen! --> Drehung y egal.
                 QuestDebugLogic.instance.log("Prism snap erkannt");
-                mesh.vertices = circleVertices(0.5f);
+                //circleMesh(mesh);
+                /*mesh.vertices = circleVertices(0.5f);
                 int[] triangles = new int[54];
                 for (int i = 0; i < 18; i++)
                 {
@@ -199,15 +236,15 @@ public class ShadowThrower : MonoBehaviour
                     triangles[i * 3 + 1] = 18 - i;
                     triangles[i * 3 + 2] = 19 - i;
                 }
-                mesh.triangles = triangles;
-                GameController.instance.insertProgressAufsicht((int)this.transform.localPosition.z, (int)this.transform.localPosition.x, "circle", 0);
-                if (!GameController.instance.checkCorrectnessAufsicht((int)this.transform.localPosition.z, (int)this.transform.localPosition.x, "circle", 0))
+                mesh.triangles = triangles;*/
+                GameController.instance.insertProgressAufsicht((int)this.transform.localPosition.z, (int)this.transform.localPosition.x, shape, 0);
+                if (!GameController.instance.checkCorrectnessAufsicht((int)this.transform.localPosition.z, (int)this.transform.localPosition.x, shape, 0))
                 {
                     this.projectionAufsicht.GetComponent<MeshRenderer>().material = incorrectColor;
-                    this.projectionAufsicht.transform.localPosition -= new Vector3(0, 0.005f, 0);
+                    this.projectionAufsicht.transform.localPosition -= new Vector3(0, 0, 0);
                 }
-                projectionAufsichtTransform[0] = 2;
-                projectionAufsichtTransform[1] = 0;
+                /*projectionAufsichtTransform[0] = 2;
+                projectionAufsichtTransform[1] = 0;*/
             }
             else
             {
@@ -233,6 +270,7 @@ public class ShadowThrower : MonoBehaviour
         this.projectionSeitenansicht.GetComponent<MeshRenderer>().material = correctColor;
 
         Mesh mesh = new Mesh();
+        String shape = null;
         int xPlane = (int)-this.transform.localPosition.x + 3;
         int yPlane = (int)this.transform.localPosition.y;
 
@@ -245,7 +283,7 @@ public class ShadowThrower : MonoBehaviour
                 if (!GameController.instance.checkCorrectnessSeitenansicht(xPlane, yPlane, "rectangle", 0))
                 {
                     this.projectionSeitenansicht.GetComponent<MeshRenderer>().material = incorrectColor;
-                    this.projectionSeitenansicht.transform.localPosition -= new Vector3(0, 0.005f, 0);
+                    this.projectionSeitenansicht.transform.localPosition -= new Vector3(0, 0, 0);
                 }
                 projectionSeitenansichtTransform[0] = 0;
                 projectionSeitenansichtTransform[1] = 0;
@@ -278,7 +316,7 @@ public class ShadowThrower : MonoBehaviour
                     if (!GameController.instance.checkCorrectnessSeitenansicht(xPlane, yPlane, "triangle", rot))
                     {
                         this.projectionSeitenansicht.GetComponent<MeshRenderer>().material = incorrectColor;
-                        this.projectionSeitenansicht.transform.localPosition -= new Vector3(0, 0.005f, 0);
+                        this.projectionSeitenansicht.transform.localPosition -= new Vector3(0, 0, 0);
                     }
                     projectionSeitenansichtTransform[0] = 1;
                     projectionSeitenansichtTransform[1] = rot;
@@ -291,7 +329,7 @@ public class ShadowThrower : MonoBehaviour
                     if (!GameController.instance.checkCorrectnessSeitenansicht(xPlane, yPlane, "rectangle", 0))
                     {
                         this.projectionSeitenansicht.GetComponent<MeshRenderer>().material = incorrectColor;
-                        this.projectionSeitenansicht.transform.localPosition -= new Vector3(0, 0.005f, 0);
+                        this.projectionSeitenansicht.transform.localPosition -= new Vector3(0, 0, 0);
                     }
                     projectionSeitenansichtTransform[0] = 0;
                     projectionSeitenansichtTransform[1] = 0;
@@ -300,15 +338,48 @@ public class ShadowThrower : MonoBehaviour
             else
             if (interactable.name.Contains("Prism"))
             {
-                rectangleMesh(mesh);
-                GameController.instance.insertProgressSeitenansicht(xPlane, yPlane, "rectangle", 0);
-                if (!GameController.instance.checkCorrectnessSeitenansicht(xPlane, yPlane, "rectangle", 0))
+                int x = (int)interactable.transform.rotation.eulerAngles.x % 180;
+                int y = (int)interactable.transform.rotation.eulerAngles.y % 180;
+                int z = (int)interactable.transform.rotation.eulerAngles.z % 180;
+                if ((x == 0 && y == 0 && z == 0) || (x == 0 && y == 90 && z == 0))
+                {
+                    //rect
+                    rectangleMesh(mesh);
+                    shape = "rectangle";
+                    projectionAufsichtTransform[0] = 0;
+                    projectionAufsichtTransform[1] = 0;
+                }
+                else
+                if ((x == 0 && y == 90 && z == 90) || (x == 90 && y == 90 && z == 90) || (x == 90 && y == 0 && z == 0))
+                {
+                    //circle
+                    circleMesh(mesh);
+                    shape = "circle";
+                    projectionAufsichtTransform[0] = 2;
+                    projectionAufsichtTransform[1] = 0;
+                }
+                else
+                if ((x == 0 && y == 0 && z == 90) || (x == 90 && y == 0 && z == 90) || (x == 90 && y == 90 && z == 0))
+                {
+                    //rect
+                    rectangleMesh(mesh);
+                    shape = "rectangle";
+                    projectionAufsichtTransform[0] = 0;
+                    projectionAufsichtTransform[1] = 0;
+                }
+                else
+                {
+                    Debug.Log("Ungültige Rotation in projectVorderansicht, " + x + "," + y + "," + z);
+                }
+                //rectangleMesh(mesh);
+                GameController.instance.insertProgressSeitenansicht(xPlane, yPlane, shape, 0);
+                if (!GameController.instance.checkCorrectnessSeitenansicht(xPlane, yPlane, shape, 0))
                 {
                     this.projectionSeitenansicht.GetComponent<MeshRenderer>().material = incorrectColor;
-                    this.projectionSeitenansicht.transform.localPosition -= new Vector3(0, 0.005f, 0);
+                    this.projectionSeitenansicht.transform.localPosition -= new Vector3(0, 0, 0);
                 }
-                projectionSeitenansichtTransform[0] = 0;
-                projectionSeitenansichtTransform[1] = 0;
+                /*projectionSeitenansichtTransform[0] = 0;
+                projectionSeitenansichtTransform[1] = 0;*/
             }
             else
             {
@@ -331,6 +402,7 @@ public class ShadowThrower : MonoBehaviour
         this.projectionVorderansicht.transform.localScale = new Vector3(2, 2, 2);
         this.projectionVorderansicht.GetComponent<MeshRenderer>().material = correctColor;
         Mesh mesh = new Mesh();
+        String shape = null;
         try
         {
             if (interactable.name.Contains("Cube"))
@@ -340,7 +412,7 @@ public class ShadowThrower : MonoBehaviour
                 if (!GameController.instance.checkCorrectnessVorderansicht((int)this.transform.localPosition.z, (int)this.transform.localPosition.y, "rectangle", 0))
                 {
                     this.projectionVorderansicht.GetComponent<MeshRenderer>().material = incorrectColor;
-                    this.projectionVorderansicht.transform.localPosition -= new Vector3(0, 0.005f, 0);
+                    this.projectionVorderansicht.transform.localPosition -= new Vector3(0, 0, 0);
                 }
                 projectionVorderansichtTransform[0] = 0;
                 projectionVorderansichtTransform[1] = 0;
@@ -373,7 +445,7 @@ public class ShadowThrower : MonoBehaviour
                     if (!GameController.instance.checkCorrectnessVorderansicht((int)this.transform.localPosition.z, (int)this.transform.localPosition.y, "triangle", rot))
                     {
                         this.projectionVorderansicht.GetComponent<MeshRenderer>().material = incorrectColor;
-                        this.projectionVorderansicht.transform.localPosition -= new Vector3(0, 0.005f, 0);
+                        this.projectionVorderansicht.transform.localPosition -= new Vector3(0, 0, 0);
                     }
                     projectionVorderansichtTransform[0] = 1;
                     projectionVorderansichtTransform[1] = rot;
@@ -385,7 +457,7 @@ public class ShadowThrower : MonoBehaviour
                     if (!GameController.instance.checkCorrectnessVorderansicht((int)this.transform.localPosition.z, (int)this.transform.localPosition.y, "rectangle", 0))
                     {
                         this.projectionVorderansicht.GetComponent<MeshRenderer>().material = incorrectColor;
-                        this.projectionVorderansicht.transform.localPosition -= new Vector3(0, 0.005f, 0);
+                        this.projectionVorderansicht.transform.localPosition -= new Vector3(0, 0, 0);
                     }
                     Debug.Log("Quadrat");
                     projectionVorderansichtTransform[0] = 0;
@@ -395,15 +467,49 @@ public class ShadowThrower : MonoBehaviour
             else
             if (interactable.name.Contains("Prism"))
             {
-                rectangleMesh(mesh);
-                GameController.instance.insertProgressVorderansicht((int)this.transform.localPosition.z, (int)this.transform.localPosition.y, "rectangle", 0);
-                if (!GameController.instance.checkCorrectnessVorderansicht((int)this.transform.localPosition.z, (int)this.transform.localPosition.y, "rectangle", 0))
+                int x = (int)interactable.transform.rotation.eulerAngles.x % 180;
+                int y = (int)interactable.transform.rotation.eulerAngles.y % 180;
+                int z = (int)interactable.transform.rotation.eulerAngles.z % 180;
+                if ((x == 0 && y == 0 && z == 0) || (x == 0 && y == 90 && z == 0))
+                {
+                    //rect TODO
+                    rectangleMesh(mesh);
+                    shape = "rectangle";
+                    projectionAufsichtTransform[0] = 0;
+                    projectionAufsichtTransform[1] = 0;
+                }
+                else
+                if ((x == 0 && y == 90 && z == 90) || (x == 90 && y == 90 && z == 90) || (x == 90 && y == 0 && z == 0))
+                {
+                    //rect TODO
+                    rectangleMesh(mesh);
+                    shape = "rectangle";
+                    projectionAufsichtTransform[0] = 0;
+                    projectionAufsichtTransform[1] = 0;
+                }
+                else
+                if ((x == 0 && y == 0 && z == 90) || (x == 90 && y == 0 && z == 90) || (x == 90 && y == 90 && z == 0))
+                {
+                    //circle TODO
+                    circleMesh(mesh);
+                    shape = "circle";
+                    projectionAufsichtTransform[0] = 2;
+                    projectionAufsichtTransform[1] = 0;
+                }
+                else
+                {
+                    Debug.Log("Ungültige Rotation in projectVorderansicht, " + x + "," + y + "," + z);
+                }
+                //TODO was davon kommt in die TODOs oben?
+                //rectangleMesh(mesh);
+                GameController.instance.insertProgressVorderansicht((int)this.transform.localPosition.z, (int)this.transform.localPosition.y, shape, 0);
+                if (!GameController.instance.checkCorrectnessVorderansicht((int)this.transform.localPosition.z, (int)this.transform.localPosition.y, shape, 0))
                 {
                     this.projectionVorderansicht.GetComponent<MeshRenderer>().material = incorrectColor;
-                    this.projectionVorderansicht.transform.localPosition -= new Vector3(0, 0.005f, 0);
+                    this.projectionVorderansicht.transform.localPosition -= new Vector3(0, 0, 0);
                 }
-                projectionVorderansichtTransform[0] = 0;
-                projectionVorderansichtTransform[1] = 0;
+                /*projectionVorderansichtTransform[0] = 0;
+                projectionVorderansichtTransform[1] = 0;*/
             }
             else
             {
@@ -425,6 +531,18 @@ public class ShadowThrower : MonoBehaviour
         mesh.triangles = new int[] { 0, 3, 2, 0, 2, 1 };
     }
 
+    void circleMesh(Mesh changedMesh)
+    {
+        changedMesh.vertices = circleVertices(0.5f);
+        int[] triangles = new int[54];
+        for (int i = 0; i < 18; i++)
+        {
+            triangles[i * 3] = 0;
+            triangles[i * 3 + 1] = 18 - i;
+            triangles[i * 3 + 2] = 19 - i;
+        }
+        changedMesh.triangles = triangles;
+    }
 
     void triangleMesh(Mesh changedMesh, int rotationInDegrees)
     {

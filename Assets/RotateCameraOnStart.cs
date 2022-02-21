@@ -22,19 +22,18 @@ public class RotateCameraOnStart : MonoBehaviour
     {
 
         float currentRotY = m_CentreEyeAnchor.eulerAngles.y;
-        float targetYRotation = 90.0f;
+        float targetYRotation = -90f;// 90.0f;
         float difference = targetYRotation - currentRotY;
         m_CameraRig.Rotate(0, difference, 0);
 
         Vector3 newPos = new Vector3(teleportPoint.position.x - m_CentreEyeAnchor.position.x, 0, teleportPoint.position.z - m_CentreEyeAnchor.position.z);
         m_CameraRig.transform.position += newPos;
-
     }
 
 
     // Update is called once per frame
-    void Update()
+    /*void Update()
     {
         
-    }
+    }*/
 }

@@ -10,7 +10,8 @@ public class GameObjectActivator : MonoBehaviour
     /// <summary>
     /// variable used to make sure, that a neighbour, that is being deactivated by this.gameObject.snapzonefacade.unsnap(), doesn't deactivate this snapZone in return
     /// </summary>
-    public bool origin;
+    public bool origin=false;
+    public static bool globalOrigin=false;
     //public SnapZoneFacade facade;
     // Start is called before the first frame update
 
@@ -46,9 +47,17 @@ public class GameObjectActivator : MonoBehaviour
     {
         try
         {
-            origin = true;
+            if (!globalOrigin)
+            {
+                globalOrigin = true;
+                origin = true;
+            }
             GameController.instance.activateDeactivateNeighbours(this.gameObject, false);
-            origin = false;
+            if (origin)
+            {
+                origin = false;
+                globalOrigin = false;
+            }
         }
         catch(Exception e)
         {

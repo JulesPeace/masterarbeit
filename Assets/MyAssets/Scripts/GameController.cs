@@ -13,22 +13,27 @@ public class GameController : MonoBehaviour
     public int height;
     public GameObject snapZonesGame;
     private GameObject[,,] playArea;
-    public GameObject debugRemoveMeLater;
+    public int debugRemoveMeLater = 0;
     public GameObject vfxGameObject;
+    [HideInInspector]
+    public static int currentSzenario = 1;
+    public static bool loading = false;
+    public int[][] flaggedIndexes = new int[64][];
+    private IEnumerator coroutine;
 
 
     public static GameController instance;
 
-    ///<summary>1st and 2nd digit are coordinates, 3rd digit is shape (rectangle, triangle, circle, 2-triangle-rectangle), 4th digit is rotation (0, 90, 180, 270) </summary>
+    ///<summary>1st and 2nd digit are coordinates, 3rd digit is shape (rectangle, triangle, circle), 4th digit is rotation (0, 90, 180, 270) </summary>
     private byte[,,,] targetAufsicht = new byte[4, 4, 3, 4];
     ///<summary>1st and 2nd digit are coordinates, 3rd digit is shape (rectangle, triangle, circle, 2-triangle-rectangle), 4th digit is rotation (0, 90, 180, 270) </summary>
     private byte[,,,] currentProgressAufsicht = new byte[4, 4, 4, 4];
-    ///<summary>1st and 2nd digit are coordinates, 3rd digit is shape (rectangle, triangle, circle, 2-triangle-rectangle), 4th digit is rotation (0, 90, 180, 270) </summary>
+    ///<summary>1st and 2nd digit are coordinates, 3rd digit is shape (rectangle, triangle, circle), 4th digit is rotation (0, 90, 180, 270) </summary>
     private byte[,,,] targetSeitenansicht = new byte[4, 4, 3, 4];
     ///<summary>1st and 2nd digit are coordinates, 3rd digit is shape (rectangle, triangle, circle, 2-triangle-rectangle), 4th digit is rotation (0, 90, 180, 270) </summary>
     //TODO make this private
     public byte[,,,] currentProgressSeitenansicht = new byte[4, 4, 4, 4];
-    ///<summary>1st and 2nd digit are coordinates, 3rd digit is shape (rectangle, triangle, circle, 2-triangle-rectangle), 4th digit is rotation (0, 90, 180, 270) </summary>
+    ///<summary>1st and 2nd digit are coordinates, 3rd digit is shape (rectangle, triangle, circle), 4th digit is rotation (0, 90, 180, 270) </summary>
     private byte[,,,] targetVorderansicht = new byte[4, 4, 3, 4];
     ///<summary>1st and 2nd digit are coordinates, 3rd digit is shape (rectangle, triangle, circle, 2-triangle-rectangle), 4th digit is rotation (0, 90, 180, 270) </summary>
     private byte[,,,] currentProgressVorderansicht = new byte[4, 4, 4, 4];
@@ -40,16 +45,22 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        szenario1();
+        loading = true;
+        loadSzenario(currentSzenario);
+        //szenario1();
+        loading = false;
     }
 
     // Update is called once per frame
     public void Update()
     {
-        if (OVRInput.GetDown(OVRInput.Button.One))
+        if (OVRInput.GetDown(OVRInput.Button.One)&&!loading)
         {
+            loading = true;
             resetGame();
-            szenario1();
+            loadSzenario(currentSzenario + 1);
+            loading = false;
+            //szenario1();
         }
     }
 
@@ -82,6 +93,121 @@ public class GameController : MonoBehaviour
         }
         res += "]";
         return res;
+    }
+    
+    public void loadSzenario(int szenarioNumber)
+    {
+        currentSzenario = szenarioNumber;
+        if (szenarioNumber != 1)
+        {
+            resetGame();
+        }
+        //TODO: test and in-comment next line
+        //resetGame();
+        switch (currentSzenario)
+        {
+            case 1:
+                targetAufsicht[3, 0, 0, 0] += 1;
+                targetAufsicht[2, 1, 0, 0] += 1;
+                targetAufsicht[1, 2, 2, 0] += 1;
+                targetSeitenansicht[3, 0, 0, 0] += 1;
+                targetSeitenansicht[2, 0, 0, 0] += 1;
+                targetSeitenansicht[1, 0, 0, 0] += 1;
+                targetVorderansicht[3, 0, 1, 3] += 1;
+                targetVorderansicht[2, 0, 0, 0] += 1;
+                targetVorderansicht[1, 0, 0, 0] += 1;
+                break;
+            case 2:
+                targetAufsicht[2, 1, 0, 0] += 1;
+                targetAufsicht[3, 1, 0, 0] += 1;
+                targetSeitenansicht[2, 0, 0, 0] += 1;
+                targetVorderansicht[3, 0, 1, 0] += 1;
+                targetVorderansicht[2, 0, 1, 3] += 1;
+                break;
+            case 3:
+                targetAufsicht[3, 0, 0, 0] += 1;
+                targetAufsicht[2, 0, 0, 0] += 1;
+                targetAufsicht[2, 1, 0, 0] += 1;
+                targetAufsicht[1, 0, 0, 0] += 1;
+                targetSeitenansicht[3, 0, 0, 0] += 1;
+                targetSeitenansicht[3, 1, 0, 0] += 1;
+                targetSeitenansicht[3, 2, 0, 0] += 1;
+                targetSeitenansicht[2, 2, 1, 2] += 1;
+                targetVorderansicht[2, 0, 0, 0] += 1;
+                targetVorderansicht[2, 1, 0, 0] += 1;
+                targetVorderansicht[3, 2, 1, 1] += 1;
+                targetVorderansicht[2, 2, 0, 0] += 1;
+                targetVorderansicht[1, 2, 1, 2] += 1;
+                break;
+            case 4:
+                targetAufsicht[3, 2, 0, 0] += 1;
+                targetAufsicht[2, 2, 0, 0] += 1;
+                targetAufsicht[1, 2, 0, 0] += 1;
+                targetSeitenansicht[1, 0, 0, 0] += 1;
+                targetSeitenansicht[1, 1, 1, 0] += 1;
+                targetSeitenansicht[1, 1, 1, 3] += 1;
+                targetSeitenansicht[1, 1, 2, 0] += 1;
+                targetVorderansicht[3, 0, 0, 0] += 1;
+                targetVorderansicht[3, 1, 0, 0] += 1;
+                targetVorderansicht[2, 1, 0, 0] += 1;
+                targetVorderansicht[1, 1, 0, 0] += 1;
+                targetVorderansicht[1, 0, 0, 0] += 1;
+                break;
+            case 5:
+                targetAufsicht[3, 1, 0, 0] += 1;
+                targetAufsicht[2, 1, 0, 0] += 1;
+                targetAufsicht[1, 1, 0, 0] += 1;
+                targetAufsicht[1, 0, 0, 0] += 1;
+                targetSeitenansicht[2, 0, 0, 0] += 1;
+                targetSeitenansicht[3, 0, 0, 0] += 1;
+                targetSeitenansicht[2, 1, 0, 0] += 1;
+                targetSeitenansicht[3, 1, 0, 0] += 1;
+                targetSeitenansicht[2, 2, 0, 0] += 1;
+                targetSeitenansicht[3, 2, 1, 0] += 1;
+                targetVorderansicht[3, 0, 0, 0] += 1;
+                targetVorderansicht[1, 0, 0, 0] += 1;
+                targetVorderansicht[1, 1, 0, 0] += 1;
+                targetVorderansicht[1, 2, 0, 0] += 1;
+                targetVorderansicht[2, 2, 1, 0] += 1;
+                targetVorderansicht[2, 1, 1, 2] += 1;
+                targetVorderansicht[3, 1, 1, 0] += 1;
+                break;
+            case 6:
+                targetAufsicht[3, 2, 0, 0] += 1;
+                targetAufsicht[2, 2, 0, 0] += 1;
+                targetAufsicht[0, 0, 0, 0] += 1;
+                targetAufsicht[0, 1, 0, 0] += 1;
+                targetAufsicht[1, 1, 1, 1] += 1;
+                targetAufsicht[1, 2, 1, 3] += 1;
+                targetSeitenansicht[3, 0, 0, 0] += 1;
+                targetSeitenansicht[2, 0, 1, 2] += 1;
+                targetSeitenansicht[2, 1, 0, 0] += 1;
+                targetSeitenansicht[1, 1, 0, 0] += 1;
+                targetSeitenansicht[2, 2, 2, 0] += 1;
+                targetSeitenansicht[1, 2, 0, 0] += 1;
+                targetVorderansicht[0, 0, 0, 0] += 1;
+                targetVorderansicht[0, 1, 0, 0] += 1;
+                targetVorderansicht[0, 2, 0, 0] += 1;
+                targetVorderansicht[1, 1, 0, 0] += 1;
+                targetVorderansicht[1, 2, 0, 0] += 1;
+                targetVorderansicht[2, 1, 0, 0] += 1;
+                targetVorderansicht[3, 1, 1, 1] += 1;
+                targetVorderansicht[3, 2, 2, 0] += 1;
+                break;
+            case 7:
+                currentSzenario = 1;
+                targetAufsicht[3, 0, 0, 0] += 1;
+                targetAufsicht[2, 1, 0, 0] += 1;
+                targetAufsicht[1, 2, 2, 0] += 1;
+                targetSeitenansicht[3, 0, 0, 0] += 1;
+                targetSeitenansicht[2, 0, 0, 0] += 1;
+                targetSeitenansicht[1, 0, 0, 0] += 1;
+                targetVorderansicht[3, 0, 1, 3] += 1;
+                targetVorderansicht[2, 0, 0, 0] += 1;
+                targetVorderansicht[1, 0, 0, 0] += 1;
+                break;
+        }
+        createPlayArea();
     }
 
     public void szenario1()
@@ -170,6 +296,45 @@ public class GameController : MonoBehaviour
         {
             currentProgressVorderansicht[x, y, 2, 0] -= 1;
         }
+    }
+
+    ///<summary>
+    ///inserts Progress depending on if parameter @plane ist seitenansicht, aufsicht or vorderansicht
+    /// </summary> 
+    public void insertProgress(int x, int y, string shape, int rotation, String plane)
+    {
+        byte[,,,] currentProgress=null;
+        if (plane.ToLower().Equals("aufsicht"))
+        {
+            currentProgress = currentProgressAufsicht;
+        }
+        if (plane.ToLower().Equals("seitenansicht"))
+        {
+            currentProgress = currentProgressSeitenansicht;
+        }
+        if (plane.ToLower().Equals("vorderansicht"))
+        {
+            currentProgress = currentProgressVorderansicht;
+        }
+        if (shape.ToLower().Equals("rectangle"))
+        {
+            currentProgress[x, y, 0, 0] += 1;
+        }
+        if (shape.ToLower().Equals("triangle"))
+        {
+            currentProgress[x, y, 1, rotation / 90] += 1;
+            //2 triangles can be 1 rectangle
+            int compareIndex = (rotation / 90 + 2) % 4;
+            if (currentProgress[x, y, 1, compareIndex] != 0)
+            {
+                currentProgress[x, y, 3, 0] += 1;
+            }
+        }
+        if (shape.ToLower().Equals("circle"))
+        {
+            currentProgress[x, y, 2, 0] += 1;
+        }
+
     }
 
     public void insertProgressAufsicht(int x, int y, string shape, int rotation)
@@ -286,7 +451,7 @@ public class GameController : MonoBehaviour
     {
         snapZone.SetActive(true);
     }
-
+    
     public void deactivateSnapZone(GameObject snapZone)
     {
         snapZone.GetComponentInChildren<SnapZoneConfigurator>().Unsnap();
@@ -294,51 +459,51 @@ public class GameController : MonoBehaviour
     }
 
     /// <summary>
-    /// returns if a neighbour of a given snapzone is active or none of them are.
+    /// returns the number of neighbours of a given snapzone, whose SnapzoneFacade ZoneState is "ZoneIsSnapped".
     /// </summary>
     /// <param name="index">The index of the Snapzone in playArea</param>
     /// <returns></returns>
-    private byte neighboursSnapped(int[] index)
+    private byte neighboursSnapped(int x, int y, int z)
     {//TODO SnapZones deactivaten nicht mehr. Warum?
         byte count = 0;
-        if (index[0] != 0)
+        if (x != 0)
         {
-            if (playArea[index[0] - 1, index[1], index[2]].GetComponent<SnapZoneFacade>().ZoneState.ToString().Equals("ZoneIsSnapped"))
+            if (playArea[x - 1, y, z].GetComponent<SnapZoneFacade>().ZoneState.ToString().Equals("ZoneIsSnapped"))
             {
                 count+=1;
             }
         }
-        if (index[0] < length - 1)
+        if (x < length - 1)
         {
-            if (playArea[index[0] + 1, index[1], index[2]].GetComponent<SnapZoneFacade>().ZoneState.ToString().Equals("ZoneIsSnapped"))
+            if (playArea[x + 1, y, z].GetComponent<SnapZoneFacade>().ZoneState.ToString().Equals("ZoneIsSnapped"))
             {
                 count+=1;
             }
         }
-        if (index[1] != 0)
+        if (y != 0)
         {
-            if (playArea[index[0], index[1] - 1, index[2]].GetComponent<SnapZoneFacade>().ZoneState.ToString().Equals("ZoneIsSnapped"))
+            if (playArea[x, y - 1, z].GetComponent<SnapZoneFacade>().ZoneState.ToString().Equals("ZoneIsSnapped"))
             {
                 count+=1;
             }
         }
-        if (index[1] < height - 1)
+        if (y < height - 1)
         {
-            if (playArea[index[0], index[1] + 1, index[2]].GetComponent<SnapZoneFacade>().ZoneState.ToString().Equals("ZoneIsSnapped"))
+            if (playArea[x, y + 1, z].GetComponent<SnapZoneFacade>().ZoneState.ToString().Equals("ZoneIsSnapped"))
             {
                 count+=1;
             }
         }
-        if (index[2] != 0)
+        if (z != 0)
         {
-            if (playArea[index[0], index[1], index[2] - 1].GetComponent<SnapZoneFacade>().ZoneState.ToString().Equals("ZoneIsSnapped"))
+            if (playArea[x, y, z - 1].GetComponent<SnapZoneFacade>().ZoneState.ToString().Equals("ZoneIsSnapped"))
             {
                 count += 1;
             }
         }
-        if (index[2] < width - 1)
+        if (z < width - 1)
         {
-            if (playArea[index[0], index[1], index[2] + 1].GetComponent<SnapZoneFacade>().ZoneState.ToString().Equals("ZoneIsSnapped"))
+            if (playArea[x, y, z + 1].GetComponent<SnapZoneFacade>().ZoneState.ToString().Equals("ZoneIsSnapped"))
             {
                 count += 1;
             }
@@ -347,8 +512,125 @@ public class GameController : MonoBehaviour
     }
 
 
+    public void deactivateNeighbourSnapzones(GameObject snapZone)
+    {
+        for(int j = 0; j<4; j++)
+        {
+            for(int i =0; i<4; i++)
+            {
+                playArea[i, 0, j].GetComponent<ShadowThrower>().flagGroundConnection = true;
+                Debug.Log(playArea[i, 0, j].GetComponent<SnapZoneFacade>().ZoneState.ToString());
+                if (playArea[i, 0, j].GetComponent<SnapZoneFacade>().ZoneState.ToString().Equals("ZoneIsSnapped"))
+                {
+                    Debug.Log(playArea[i, 1, j].GetComponent<SnapZoneFacade>().ZoneState.ToString());
+                    if (playArea[i, 1, j].GetComponent<SnapZoneFacade>().ZoneState.ToString().Equals("ZoneIsSnapped")&&!playArea[i,1,j].GetComponent<ShadowThrower>().flagGroundConnection)
+                     {
+                        activateDeativateNeighbourSnapzonesHelper(playArea[i,1,j]);
+                     }
+                }
+            }
+        }
+        for (int i = 0; i < 4; i++)
+        {
+            for (int j = 1; j < 4; j++)
+            {
+                for (int k =0; k <4; k++)
+                {
+                    //alle durchlaufen, Unsnappen was nicht geflagt ist + flag zurücksetzen.
+                    if (!playArea[i, j, k].GetComponent<ShadowThrower>().flagGroundConnection && playArea[i,j,k].activeSelf)
+                    {
+                        //playArea[i, j, k].GetComponent<GameObjectActivator>().origin = true;
+                        playArea[i,j,k].GetComponentInChildren<SnapZoneConfigurator>().Unsnap();
+                        //deactivateSnapZone(playArea[i, j, k]);
+                    }
+                    playArea[i, j, k].GetComponent<ShadowThrower>().flagGroundConnection = false;
+                }
 
-    ///true if activating, false if deactivating
+            }
+        }
+        //in diesem Durchlauf alle leeren SnapZones ohne Nachbar deaktivieren
+        coroutine = EmptySnapZoneDeactivationWorkAround();
+        StartCoroutine(coroutine);
+    }
+
+
+    /// <summary>
+    /// This is neccessary, because right after Unsnapping a SnapZOne has the state "ZoneIsActive" and will bug, if it is deactivated in that state. This method waits for 0.1s and THEN deactivates all empty SnapZones without neighbour.
+    /// </summary>
+    /// <param name="newlySpawnedObject"></param>
+    /// <returns></returns>
+    public IEnumerator EmptySnapZoneDeactivationWorkAround()
+    {
+        yield return new WaitForSeconds(0.1f);
+        for (int i = 0; i < 4; i++)
+        {
+            for (int j = 1; j < 4; j++)
+            {
+                for (int k = 0; k < 4; k++)
+                {
+                    Debug.Log("ZoneState von (" + i + "," + j + "," + k + ") ist " + playArea[i, j, k].GetComponent<SnapZoneFacade>().ZoneState.ToString());
+                    if (neighboursSnapped(i, j, k) == 0 && playArea[i, j, k].GetComponent<SnapZoneFacade>().ZoneState.ToString().Equals("ZoneIsEmpty"))
+                    {
+                        playArea[i, j, k].SetActive(false);
+                    }
+                }
+
+            }
+        }
+    }
+
+    public void activateDeativateNeighbourSnapzonesHelper(GameObject snapZone)
+    {
+        snapZone.GetComponent<ShadowThrower>().flagGroundConnection = true;
+        int[] index = getIndexOfSnapZoneInPlayArea(snapZone);
+
+        flaggedIndexes[16*index[2]+4*index[1]+index[0]] = index;
+
+        if (index[0] > 0)
+        {
+            if (playArea[index[0]-1, index[1], index[2]].GetComponent<SnapZoneFacade>().ZoneState.ToString().Equals("ZoneIsSnapped") && !playArea[index[0] - 1, index[1], index[2]].GetComponent<ShadowThrower>().flagGroundConnection)
+            {
+                activateDeativateNeighbourSnapzonesHelper(playArea[index[0] - 1, index[1], index[2]]);
+            }
+        }
+        if(index[0] != length - 1)
+        {
+            if (playArea[index[0] + 1, index[1], index[2]].GetComponent<SnapZoneFacade>().ZoneState.ToString().Equals("ZoneIsSnapped") && !playArea[index[0] + 1, index[1], index[2]].GetComponent<ShadowThrower>().flagGroundConnection)
+            {
+                activateDeativateNeighbourSnapzonesHelper(playArea[index[0] + 1, index[1], index[2]]);
+            }
+        }
+        if (index[1] > 1)
+        {
+            if (playArea[index[0], index[1]-1, index[2]].GetComponent<SnapZoneFacade>().ZoneState.ToString().Equals("ZoneIsSnapped") && !playArea[index[0], index[1]-1, index[2]].GetComponent<ShadowThrower>().flagGroundConnection)
+            {
+                activateDeativateNeighbourSnapzonesHelper(playArea[index[0], index[1]-1, index[2]]);
+            }
+        }
+        if (index[1] != height-1)
+        {
+            if (playArea[index[0], index[1]+1, index[2]].GetComponent<SnapZoneFacade>().ZoneState.ToString().Equals("ZoneIsSnapped") && !playArea[index[0] + 1, index[1]+1, index[2]].GetComponent<ShadowThrower>().flagGroundConnection)
+            {
+                activateDeativateNeighbourSnapzonesHelper(playArea[index[0], index[1]+1, index[2]]);
+            }
+        }
+        if (index[2] > 0)
+        {
+            if (playArea[index[0], index[1], index[2]-1].GetComponent<SnapZoneFacade>().ZoneState.ToString().Equals("ZoneIsSnapped") && !playArea[index[0], index[1] + 1, index[2]-1].GetComponent<ShadowThrower>().flagGroundConnection)
+            {
+                activateDeativateNeighbourSnapzonesHelper(playArea[index[0], index[1], index[2]-1]);
+            }
+        }
+        if (index[2] != width-1)
+        {
+            if (playArea[index[0], index[1], index[2]+1].GetComponent<SnapZoneFacade>().ZoneState.ToString().Equals("ZoneIsSnapped") && !playArea[index[0], index[1] + 1, index[2]+1].GetComponent<ShadowThrower>().flagGroundConnection)
+            {
+                activateDeativateNeighbourSnapzonesHelper(playArea[index[0], index[1], index[2]+1]);
+            }
+        }
+    }
+
+    ///"activate true if activating, false if deactivating
     public void activateDeactivateNeighbours(GameObject snapZone, bool activate)
     {
         int[] index = getIndexOfSnapZoneInPlayArea(snapZone);
@@ -358,13 +640,13 @@ public class GameController : MonoBehaviour
             {
                 activateSnapZone(playArea[index[0] - 1, index[1], index[2]]);
             }
-            else
+            /*else
             {
                 if (index[1] != 0 && (neighboursSnapped(new int[] { index[0]-1,index[1],index[2] })<2)&& !playArea[index[0] - 1, index[1], index[2]].GetComponent<GameObjectActivator>().origin)
                 {
                     deactivateSnapZone(playArea[index[0] - 1, index[1], index[2]]);
                 }
-            }
+            }*/
         }
         if (index[0] != length - 1)
         {
@@ -372,23 +654,24 @@ public class GameController : MonoBehaviour
             {
                 activateSnapZone(playArea[index[0] + 1, index[1], index[2]]);
             }
-            else
+            /*else
             {
                 if ((index[1] != 0) && (neighboursSnapped(new int[] { index[0] + 1, index[1], index[2] })<2)&&!playArea[index[0] + 1, index[1], index[2]].GetComponent<GameObjectActivator>().origin)
                 {
                     deactivateSnapZone(playArea[index[0] + 1, index[1], index[2]]);
                 }
-            }
+            }*/
         }
         //TODO Die Snapzone darunter muss ggf. aktiviert/deaktiviert werden!
         //Die Snapzone darunter muss weder aktiviert noch deaktiviert werden!
-        /*if (index[1] != 0)
+        if (index[1] > 1)
         {
             if (activate)
             {
-                activateSnapZone(playArea[index[0], index[1]-1, index[2]]);
+                activateSnapZone(playArea[index[0], index[1] - 1, index[2]]);
             }
-            else
+        }
+          /* else
             {
                 deactivateSnapZone(playArea[index[0], index[1]-1, index[2]]);
             }
@@ -399,13 +682,13 @@ public class GameController : MonoBehaviour
             {
                 activateSnapZone(playArea[index[0], index[1] + 1, index[2]]);
             }
-            else
+            /*else
             {
                 if((neighboursSnapped(new int[] { index[0], index[1] + 1, index[2] })<2)&& !playArea[index[0], index[1]+1, index[2]].GetComponent<GameObjectActivator>().origin)
                 {
                     deactivateSnapZone(playArea[index[0], index[1] + 1, index[2]]);
                 }
-            }
+            }*/
         }
         if (index[2] != 0)
         {
@@ -413,13 +696,13 @@ public class GameController : MonoBehaviour
             {
                 activateSnapZone(playArea[index[0], index[1], index[2] - 1]);
             }
-            else
+            /*else
             {
                 if ((index[1] != 0) && (neighboursSnapped(new int[] { index[0], index[1], index[2] - 1 })<2) && !playArea[index[0], index[1], index[2]-1].GetComponent<GameObjectActivator>().origin)
                 {
                     deactivateSnapZone(playArea[index[0], index[1], index[2] - 1]);
                 }
-            }
+            }*/
         }
         if (index[2] != width - 1)
         {
@@ -427,13 +710,19 @@ public class GameController : MonoBehaviour
             {
                 activateSnapZone(playArea[index[0], index[1], index[2] + 1]);
             }
-            else
+            /*else
             {
                 if ((index[1] != 0) && (neighboursSnapped(new int[] { index[0], index[1], index[2] + 1 })<2) && !playArea[index[0], index[1], index[2]+1].GetComponent<GameObjectActivator>().origin)
                 {
                     deactivateSnapZone(playArea[index[0], index[1], index[2] + 1]);
                 }
-            }
+            }*/
+        }
+        if (!activate&& snapZone.GetComponent<GameObjectActivator>().origin)
+        {
+            //snapZone.GetComponent<GameObjectActivator>().origin = true;
+            deactivateNeighbourSnapzones(snapZone);
+            debugRemoveMeLater++;
         }
         if (checkVictory())
         {
@@ -487,6 +776,7 @@ public class GameController : MonoBehaviour
         Debug.Log("Übergebene SnapZone ist nicht in playArea!");
         return null;
     }
+    
     /// <summary>
     /// 0 rectangle, 1 triangle, 2 circle. 255 error
     /// </summary>
@@ -509,15 +799,62 @@ public class GameController : MonoBehaviour
         return 255;
     }
 
-    /// <summary>
-    /// checks, if the new projections are ok with the target
-    /// </summary>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <param name="shape"></param>
-    /// <param name="rotation"></param>
-    /// <returns></returns>
-    public bool checkCorrectnessAufsicht(int x, int y, string shape, int rotation)
+    ///<summary>
+    /// checks correctness depending on if parameter @plane ist seitenansicht, aufsicht or vorderansicht
+    /// </summary> 
+    public bool checkCorrectness(int x, int y, string shape, int rotation, String plane)
+    {
+        byte[,,,] target=null;
+        if (plane.ToLower().Equals("aufsicht"))
+        {
+            target = targetAufsicht;
+        }
+        if (plane.ToLower().Equals("seitenansicht"))
+        {
+            target = targetSeitenansicht;
+        }
+        if (plane.ToLower().Equals("vorderansicht"))
+        {
+            target = targetVorderansicht;
+        }
+        byte shapeIndex = shapeStringToIndex(shape);
+        if (shapeIndex == 0)
+        {
+            //if target needs a rectangle there
+            if (target[x, y, 0, 0] != 0)
+            {
+                return true;
+            }
+        }
+        if (shapeIndex == 1)
+        {
+            //if target needs this triangle or a rectangle there
+            if ((target[x, y, 1, rotation / 90] != 0) || (target[x, y, 0, 0] != 0))
+            {
+                return true;
+            }
+        }
+        if (shapeIndex == 2)
+        {
+            //if target need this circle or a rectangle there
+            if ((target[x, y, 2, 0] != 0) || (target[x, y, 0, 0] != 0))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+        /// <summary>
+        /// checks, if the new projections are ok with the target
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="shape"></param>
+        /// <param name="rotation"></param>
+        /// <returns></returns>
+        public bool checkCorrectnessAufsicht(int x, int y, string shape, int rotation)
     {
         byte shapeIndex = shapeStringToIndex(shape);
         if (shapeIndex == 0)
@@ -633,13 +970,43 @@ public class GameController : MonoBehaviour
     /// <param name="target"></param>
     /// <param name="currentProgress"></param>
     /// <returns></returns>
-    public bool checkProjections(byte[,,,]target, byte[,,,]currentProgress)
+    public bool checkProjections(byte[,,,] target, byte[,,,] currentProgress)
     {
+        //passt das target zum currentProgress?
         for (int i = 0; i < 4; i++)
         {
             for (int j = 0; j < 4; j++)
             {
-                if ((target[i, j, 0, 0] == 0)
+                if (((currentProgress[i, j, 0, 0] > 0) || (currentProgress[i, j, 3, 0] > 0)) && (target[i, j, 0, 0] == 0))
+                {
+                    QuestDebugLogic.instance.log("false weil progress bei " + i + "," + j + ",(0||3),0 größer 0 war, aber 0 sein sollte.");
+                    return false;
+                }
+                if ((currentProgress[i, j, 2, 0] > 0) && (target[i, j, 2, 0] == 0) && target[i, j, 0, 0] == 0)
+                {
+                    QuestDebugLogic.instance.log("false weil progress bei " + i + "," + j + ",2,0 größer 0 war, aber 0 sein sollte.");
+                    return false;
+                }
+                for (int k = 0; k < 4; k++)
+                {
+                    if ((currentProgress[i, j, 1, k] > 0) && (target[i, j, 1, k] == 0) && target[i,j,0,0]==0)
+                    {
+                        QuestDebugLogic.instance.log("false weil progress bei " + i + "," + j + ",1," + k + " größer 0 war, aber 0 sein sollte und auch kein Quadrat dort gefordert ist.");
+                        return false;
+                    }
+                }
+
+            }
+
+        }
+    
+
+        //passt der currentProgress zum target?
+        for (int i = 0; i < 4; i++)
+        {
+            for (int j = 0; j < 4; j++)
+            {
+                /*if ((target[i, j, 0, 0] == 0)
                     && (target[i, j, 1, 0] == 0)
                     && (target[i, j, 1, 1] == 0)
                     && (target[i, j, 1, 2] == 0)
@@ -659,7 +1026,7 @@ public class GameController : MonoBehaviour
                         return false;
                     }
                 }
-                else
+                else*/
                     for (int k = 0; k < 3; k++)
                     {
                         //rectangle
@@ -685,15 +1052,15 @@ public class GameController : MonoBehaviour
                                 if (
                                     (target[i, j, k, l] > 0)
                                     && ((currentProgress[i, j, k, l] == 0)
-                                        || (currentProgress[i, j, 0, 0] > 0)
-                                        || (currentProgress[i, j, 2, 0] > 0)
-                                        || (currentProgress[i, j, k, (l + 1) % 4] > 0)
-                                        || (currentProgress[i, j, k, (l + 2) % 4] > 0)
-                                        || (currentProgress[i, j, k, (l + 3) % 4] > 0)
+                                        //|| (currentProgress[i, j, 0, 0] > 0)
+                                        //|| (currentProgress[i, j, 2, 0] > 0)
+                                        //|| (currentProgress[i, j, k, (l + 1) % 4] > 0)
+                                        //|| (currentProgress[i, j, k, (l + 2) % 4] > 0)
+                                        //|| (currentProgress[i, j, k, (l + 3) % 4] > 0)
                                         )
                                     )
                                 {
-                                    QuestDebugLogic.instance.log("false weil progress bei " + i + "," + j +","+k+","+l+ " = 0 war oder bei quadrat/gedrehtem Dreieck >0, aber target dort >0 ist.");
+                                    QuestDebugLogic.instance.log("false weil progress bei " + i + "," + j +","+k+","+l+ " = "+ currentProgress[i, j, k, l]+" war oder QUATSCH bei quadrat/gedrehtem Dreieck >0, aber target dort =" + target[i, j, k, l] + "  ist.");
                                     return false;
                                 }
                             }
@@ -705,14 +1072,15 @@ public class GameController : MonoBehaviour
                             if (
                                 (target[i, j, 2, 0] > 0)
                                 && ((currentProgress[i, j, 2, 0] == 0)
-                                    || (currentProgress[i, j, 1, 0] > 0)
-                                    || (currentProgress[i, j, 1, 1] > 0)
-                                    || (currentProgress[i, j, 1, 2] > 0)
-                                    || (currentProgress[i, j, 1, 3] > 0)
-                                    || (currentProgress[i, j, 0, 0] > 0))
+                                    //|| (currentProgress[i, j, 1, 0] > 0)
+                                    //|| (currentProgress[i, j, 1, 1] > 0)
+                                    //|| (currentProgress[i, j, 1, 2] > 0)
+                                    //|| (currentProgress[i, j, 1, 3] > 0)
+                                    //|| (currentProgress[i, j, 0, 0] > 0)
                                     )
+                                )
                             {
-                                QuestDebugLogic.instance.log("false weil progress bei " + i + "," + j + ",2,0 = 0 war oder bei Quadrat/Dreieck dort >0, aber >0 sein sollte.");
+                                QuestDebugLogic.instance.log("false weil progress bei " + i + "," + j + ",2,0 = 0 war oder QUATSCH bei Quadrat/Dreieck dort >0, aber >0 sein sollte.");
                                 return false;
                             }
                         }
@@ -745,7 +1113,8 @@ public class GameController : MonoBehaviour
         }
         catch(Exception e)
         {
-            msg += "bug in aufsicht" + e.Message;
+            
+            msg += "bug in aufsicht" + e.Message +" innerMessage " + " stack trace " + e.StackTrace;
         }
         try
         {
@@ -763,6 +1132,7 @@ public class GameController : MonoBehaviour
         {
             msg += "bug in vorderansicht" + e.Message;
         }
+        QuestDebugLogic.instance.logL(msg);
         if (seitenansicht && vorderansicht && aufsicht)
         {
             return true;
@@ -799,8 +1169,8 @@ public class GameController : MonoBehaviour
         targetAufsicht = new byte[4, 4, 3, 4];
         targetSeitenansicht = new byte[4, 4, 3, 4];
         targetVorderansicht = new byte[4, 4, 3, 4];
-        currentProgressAufsicht = new byte[4, 4, 3, 4];
-        currentProgressSeitenansicht = new byte[4, 4, 3, 4];
-        currentProgressVorderansicht = new byte[4, 4, 3, 4];
+        currentProgressAufsicht = new byte[4, 4, 4, 4];
+        currentProgressSeitenansicht = new byte[4, 4, 4, 4];
+        currentProgressVorderansicht = new byte[4, 4, 4, 4];
     }
 }

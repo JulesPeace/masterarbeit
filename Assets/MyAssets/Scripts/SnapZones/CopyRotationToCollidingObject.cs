@@ -49,10 +49,13 @@ public class CopyRotationToCollidingObject : MonoBehaviour
                 //TODO parent.gameObject.transform zirkel?
                 other.gameObject.transform.parent.gameObject.transform.rotation = rot;
                 MeshFilter fltr = other.gameObject.transform.parent.gameObject.GetComponentInChildren<MeshFilter>();
-                fltr.mesh = this.GetComponent<MeshFilter>().mesh;
-                fltr.mesh.RecalculateNormals();
-                fltr.mesh.RecalculateBounds();
-                fltr.mesh.RecalculateTangents();
+                if (this.GetComponent<MeshFilter>() != null)
+                {
+                    fltr.mesh = this.GetComponent<MeshFilter>().mesh;
+                    fltr.mesh.RecalculateNormals();
+                    fltr.mesh.RecalculateBounds();
+                    fltr.mesh.RecalculateTangents();
+                }
             }
         }
     }
