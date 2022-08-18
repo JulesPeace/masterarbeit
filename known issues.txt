@@ -1,0 +1,5 @@
+bugs:
+block mit y = 1 greifen, wenn darüber (und daneben - relevant?) ein körper ist, darunter aber nicht. Absturz (infinite-loop?)
+
+features to be build:
+Vorschau nimmt mesh von colliding object ein

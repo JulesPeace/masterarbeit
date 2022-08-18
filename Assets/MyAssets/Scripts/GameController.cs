@@ -19,7 +19,10 @@ public class GameController : MonoBehaviour
     public static int currentSzenario = 1;
     public static bool loading = false;
     public int[][] flaggedIndexes = new int[64][];
+    public GameObject tutorialMaterial;
     private IEnumerator coroutine;
+    //public Vector2 currentRightThumbstick = new Vector2();
+    public GameObject table;
 
 
     public static GameController instance;
@@ -62,6 +65,13 @@ public class GameController : MonoBehaviour
             loading = false;
             //szenario1();
         }
+        if ((OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick).y>0.05)|| (OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick).y<-0.05))
+        {
+            float y = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick).y;
+            if (y>0 && table.transform.position.y<0.6f || y<0 && table.transform.position.y>-0.25f)
+            table.transform.position += (new Vector3(0f, y, 0f)) * Time.deltaTime;
+        }
+        //currentRightThumbstick = OVRInput.Get(OVRInput.Axis2D.SecondaryThumbstick);
     }
 
     public string arrayToString(byte[,,,] arr)
@@ -102,11 +112,11 @@ public class GameController : MonoBehaviour
         {
             resetGame();
         }
-        //TODO: test and in-comment next line
-        //resetGame();
+        
         switch (currentSzenario)
         {
             case 1:
+                DebugUIBuilder.instance.Show();
                 targetAufsicht[3, 0, 0, 0] += 1;
                 targetAufsicht[2, 1, 0, 0] += 1;
                 targetAufsicht[1, 2, 2, 0] += 1;
@@ -116,8 +126,12 @@ public class GameController : MonoBehaviour
                 targetVorderansicht[3, 0, 1, 3] += 1;
                 targetVorderansicht[2, 0, 0, 0] += 1;
                 targetVorderansicht[1, 0, 0, 0] += 1;
+                tutorialMaterial.SetActive(true);
+                //QuestCanvasCenter.instance.log("Baue die Figur nach, deren drei Schatten im Spielbereich zu sehen sind.");
                 break;
             case 2:
+                tutorialMaterial.SetActive(false);
+                DebugUIBuilder.instance.Hide();
                 targetAufsicht[2, 1, 0, 0] += 1;
                 targetAufsicht[3, 1, 0, 0] += 1;
                 targetSeitenansicht[2, 0, 0, 0] += 1;
@@ -514,22 +528,24 @@ public class GameController : MonoBehaviour
 
     public void deactivateNeighbourSnapzones(GameObject snapZone)
     {
+        Debug.Log("Hauptmarkierroutine Aufruf durch Snapzone "+ string.Join(",", getIndexOfSnapZoneInPlayArea(snapZone)));
         for(int j = 0; j<4; j++)
         {
             for(int i =0; i<4; i++)
             {
                 playArea[i, 0, j].GetComponent<ShadowThrower>().flagGroundConnection = true;
-                Debug.Log(playArea[i, 0, j].GetComponent<SnapZoneFacade>().ZoneState.ToString());
                 if (playArea[i, 0, j].GetComponent<SnapZoneFacade>().ZoneState.ToString().Equals("ZoneIsSnapped"))
                 {
-                    Debug.Log(playArea[i, 1, j].GetComponent<SnapZoneFacade>().ZoneState.ToString());
                     if (playArea[i, 1, j].GetComponent<SnapZoneFacade>().ZoneState.ToString().Equals("ZoneIsSnapped")&&!playArea[i,1,j].GetComponent<ShadowThrower>().flagGroundConnection)
                      {
+                        Debug.Log("Aufruf Helper bei " + i + ",1,"+j);
                         activateDeativateNeighbourSnapzonesHelper(playArea[i,1,j]);
+                        Debug.Log("Rücksprung");
                      }
                 }
             }
         }
+        Debug.Log("Alle unmarkierten unsnappen...");
         for (int i = 0; i < 4; i++)
         {
             for (int j = 1; j < 4; j++)
@@ -540,6 +556,7 @@ public class GameController : MonoBehaviour
                     if (!playArea[i, j, k].GetComponent<ShadowThrower>().flagGroundConnection && playArea[i,j,k].activeSelf)
                     {
                         //playArea[i, j, k].GetComponent<GameObjectActivator>().origin = true;
+                        //TODO Warum hier nicht-sensitiv Unsnappen!? Zonestate checken, ggf. deaktivieren statt Unsnappen.
                         playArea[i,j,k].GetComponentInChildren<SnapZoneConfigurator>().Unsnap();
                         //deactivateSnapZone(playArea[i, j, k]);
                     }
@@ -548,7 +565,9 @@ public class GameController : MonoBehaviour
 
             }
         }
+        Debug.Log("erfolreich!");
         //in diesem Durchlauf alle leeren SnapZones ohne Nachbar deaktivieren
+        //TODO vielleicht ist die Rechenleistung das Problem - länger warten (bis der frame berechnet ist) und kein Absturz?
         coroutine = EmptySnapZoneDeactivationWorkAround();
         StartCoroutine(coroutine);
     }
@@ -561,15 +580,15 @@ public class GameController : MonoBehaviour
     /// <returns></returns>
     public IEnumerator EmptySnapZoneDeactivationWorkAround()
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForEndOfFrame();// WaitForSeconds(0.1f);
         for (int i = 0; i < 4; i++)
         {
             for (int j = 1; j < 4; j++)
             {
                 for (int k = 0; k < 4; k++)
                 {
-                    Debug.Log("ZoneState von (" + i + "," + j + "," + k + ") ist " + playArea[i, j, k].GetComponent<SnapZoneFacade>().ZoneState.ToString());
-                    if (neighboursSnapped(i, j, k) == 0 && playArea[i, j, k].GetComponent<SnapZoneFacade>().ZoneState.ToString().Equals("ZoneIsEmpty"))
+                    //Debug.Log("ZoneState von (" + i + "," + j + "," + k + ") ist " + playArea[i, j, k].GetComponent<SnapZoneFacade>().ZoneState.ToString());
+                    if (neighboursSnapped(i, j, k) == 0 && (playArea[i, j, k].GetComponent<SnapZoneFacade>().ZoneState.ToString().Equals("ZoneIsEmpty")|| playArea[i, j, k].GetComponent<SnapZoneFacade>().ZoneState.ToString().Equals("ZoneIsActivated")))
                     {
                         playArea[i, j, k].SetActive(false);
                     }
@@ -579,6 +598,8 @@ public class GameController : MonoBehaviour
         }
     }
 
+    ///<summary>
+    ///snapzone.flagGroundConnection auf true setzen, rekursiver Aufruf aller _gesnapten_ Nachbarn, deren flagGroundConnection = false ist  </summary>
     public void activateDeativateNeighbourSnapzonesHelper(GameObject snapZone)
     {
         snapZone.GetComponent<ShadowThrower>().flagGroundConnection = true;
@@ -616,14 +637,14 @@ public class GameController : MonoBehaviour
         }
         if (index[2] > 0)
         {
-            if (playArea[index[0], index[1], index[2]-1].GetComponent<SnapZoneFacade>().ZoneState.ToString().Equals("ZoneIsSnapped") && !playArea[index[0], index[1] + 1, index[2]-1].GetComponent<ShadowThrower>().flagGroundConnection)
+            if (playArea[index[0], index[1], index[2]-1].GetComponent<SnapZoneFacade>().ZoneState.ToString().Equals("ZoneIsSnapped") && !playArea[index[0], index[1], index[2]-1].GetComponent<ShadowThrower>().flagGroundConnection)
             {
                 activateDeativateNeighbourSnapzonesHelper(playArea[index[0], index[1], index[2]-1]);
             }
         }
         if (index[2] != width-1)
         {
-            if (playArea[index[0], index[1], index[2]+1].GetComponent<SnapZoneFacade>().ZoneState.ToString().Equals("ZoneIsSnapped") && !playArea[index[0], index[1] + 1, index[2]+1].GetComponent<ShadowThrower>().flagGroundConnection)
+            if (playArea[index[0], index[1], index[2]+1].GetComponent<SnapZoneFacade>().ZoneState.ToString().Equals("ZoneIsSnapped") && !playArea[index[0], index[1], index[2]+1].GetComponent<ShadowThrower>().flagGroundConnection)
             {
                 activateDeativateNeighbourSnapzonesHelper(playArea[index[0], index[1], index[2]+1]);
             }
@@ -722,11 +743,12 @@ public class GameController : MonoBehaviour
         {
             //snapZone.GetComponent<GameObjectActivator>().origin = true;
             deactivateNeighbourSnapzones(snapZone);
+            //TODO delete this
             debugRemoveMeLater++;
         }
         if (checkVictory())
         {
-            QuestDebugLogic.instance.log("geschafft! Alpha 0.7 komplettiert!");
+            QuestDebugLogic.instance.log("geschafft! Alpha 0.9.2 komplettiert!");
             StartCoroutine(fireworks());
         }
     }
