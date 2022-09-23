@@ -12,6 +12,7 @@ TagManager:
   - ExampleAvatar
   - VRTK Hands
   - ShadowProjection
+  - ProjectionArea
   layers:
   - Default
   - TransparentFX

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PrefabGenerator : MonoBehaviour
 {
-    public int limit = 200;
+    public int limit = 20;
     [Header("Spawn Location")]
     public float x = 0f;
     public float y = 0f;
@@ -17,6 +17,7 @@ public class PrefabGenerator : MonoBehaviour
     public GameObject prismPrefab;
     [HideInInspector]
     public GameObject[] instances;
+    public List<GameObject> instances2;
     [HideInInspector]
     public int instanceCount = 0;
 
@@ -26,6 +27,7 @@ public class PrefabGenerator : MonoBehaviour
     {
         instance = this;
         this.instances = new GameObject[this.limit];
+        //TODO instances2 = new List<GameObject>();
     }
 
     private void Start()
@@ -39,6 +41,9 @@ public class PrefabGenerator : MonoBehaviour
 
     public GameObject getLatestInstance()
     {
+        //test
+        //(GameObject result = instances2.;
+        //test ende
         int i = 0;
         GameObject target = null;
         while (instances[i] != null && (i < limit))
@@ -47,31 +52,45 @@ public class PrefabGenerator : MonoBehaviour
         }
         target = instances[i - 1];
         return target;
+        //return instances2[instances2.Count-1];
     }
 
     public void generatePrefab(Transform parentTransform, GameObject prefab)
     {
+        if (!prefab.activeSelf)
+        {
+            prefab.SetActive(true);
+        }
+
         if (wedgePrefab.name.Equals(prefab.name))
         {
             instances[instanceCount] = Instantiate(wedgePrefab, parentTransform, false);
+            //instances2.Add(instances[instanceCount]);
         }
         else
         if (cubePrefab.name.Equals(prefab.name))
         {
             instances[instanceCount] = Instantiate(cubePrefab, parentTransform, false);
+            //instances2.Add(instances[instanceCount]);
         }
         else
         if (prismPrefab.name.Equals(prefab.name))
         {
             instances[instanceCount] = Instantiate(prismPrefab, parentTransform, false);
+            //instances2.Add(instances[instanceCount]);
         }
         else
         {
             Debug.Log("Interactable prefabs nicht erkannt");
         }
+        prefab.SetActive(false);
+        //test instances2[instances2.Count-1].GetComponent<Rigidbody>().isKinematic = true;
         this.instances[instanceCount].GetComponent<Rigidbody>().isKinematic = true;
+        //test instances2[instances2.Count-1].transform.localPosition = new Vector3(0, 0, 0);
         this.instances[instanceCount].transform.localPosition = new Vector3(0, 0, 0);
+        //test instances2[instances2.Count-1].transform.localRotation = Quaternion.identity;
         this.instances[instanceCount].transform.localRotation = Quaternion.identity;
+        //test instances2[instances2.Count-1].GetComponent<Rigidbody>().isKinematic = false;
         this.instances[instanceCount].GetComponent<Rigidbody>().isKinematic = false;
         instanceCount++;
     }
@@ -106,6 +125,7 @@ public class PrefabGenerator : MonoBehaviour
             instanceCount++;
         }
         return instances[instanceCount - 1];
+        QuestDebugLogic.instance.logL("instanceCount = "+instanceCount);
     }
 
     public void generatePrefab(GameObject prefab)
