@@ -568,6 +568,7 @@ public class GameController : MonoBehaviour
         Debug.Log("erfolreich!");
         //in diesem Durchlauf alle leeren SnapZones ohne Nachbar deaktivieren
         //TODO vielleicht ist die Rechenleistung das Problem - länger warten (bis der frame berechnet ist) und kein Absturz?
+        
         coroutine = EmptySnapZoneDeactivationWorkAround();
         StartCoroutine(coroutine);
     }
@@ -581,6 +582,7 @@ public class GameController : MonoBehaviour
     public IEnumerator EmptySnapZoneDeactivationWorkAround()
     {
         yield return new WaitForEndOfFrame();// WaitForSeconds(0.1f);
+        yield return new WaitForFixedUpdate();
         for (int i = 0; i < 4; i++)
         {
             for (int j = 1; j < 4; j++)

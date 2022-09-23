@@ -10,20 +10,38 @@
     "m_KnownPackagesForSerialization": [
         {
             "deviceId": "1PASH9BWJY9412",
-            "name": "com.SummerGames.DreitafelprojektionVR",
-            "processId": 5020,
+            "name": "com.oculus.xrstreamingclient",
+            "processId": 8463,
+            "exited": true
+        },
+        {
+            "deviceId": "1PASH9BWJY9412",
+            "name": "com.SummerGames.SolidsAndShadows",
+            "processId": 11982,
             "exited": true
         },
         {
             "deviceId": "1PASH9BWJY9412",
             "name": "com.oculus.shellenv",
-            "processId": 2036,
-            "exited": false
+            "processId": 1992,
+            "exited": true
         },
         {
             "deviceId": "1PASH9BWJY9412",
             "name": "com.oculus.xrstreamingclient",
-            "processId": 8463,
+            "processId": 13328,
+            "exited": true
+        },
+        {
+            "deviceId": "1PASH9BWJY9412",
+            "name": "com.oculus.os.clearactivity",
+            "processId": 14672,
+            "exited": true
+        },
+        {
+            "deviceId": "1PASH9BWJY9412",
+            "name": "com.oculus.xrstreamingclient",
+            "processId": 3981,
             "exited": false
         }
     ],
